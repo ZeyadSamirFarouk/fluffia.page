@@ -30,6 +30,7 @@
         header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             padding: 40px 50px;
             position: relative;
             z-index: 10;
@@ -84,20 +85,22 @@
             letter-spacing: -5px;
         }
 
+        /* دمج الصورة الحقيقية للحقائب (pink_bags.png) في التصميم الـ 3D */
         .main-bag {
             position: relative;
             z-index: 2;
-            width: 60%;
-            max-width: 700px;
-            margin-top: -50px;
-            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15));
+            width: 70%;
+            max-width: 800px; /* جعل الصورة أكبر وأوضح */
+            margin-top: -80px;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.1));
+            transition: 0.5s;
         }
 
         .hero-bottom {
             display: flex;
             justify-content: space-between;
             padding: 0 100px;
-            margin-top: 50px;
+            margin-top: 80px;
             text-align: left;
         }
 
@@ -144,7 +147,7 @@
         .new-arrivals {
             background-color: var(--dark-pink);
             padding: 80px 50px;
-            margin-top: 80px;
+            margin-top: 100px;
             text-align: center;
             color: white;
         }
@@ -195,8 +198,14 @@
             background-color: rgba(255, 255, 255, 0.2);
             padding: 30px;
             border-radius: 40px;
-            min-width: 300px; /* لضمان عدم صغر الكارت داخل السلايدر */
+            min-width: 300px;
             position: relative;
+            transition: 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.3);
         }
 
         .eco-badge {
@@ -243,6 +252,12 @@
             font-size: 12px;
             font-weight: 600;
             text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn-small:hover {
+            background-color: var(--text-dark);
+            color: white;
         }
 
         .arrow {
@@ -295,33 +310,41 @@
             z-index: 2;
         }
 
+        /* دمج الأشكال الـ 3D مع الحقائب الحقيقية */
         .img-abstract-1 {
             position: absolute;
             top: -50px;
             left: 10%;
             width: 150px;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
         }
         
+        /* دمج الحقائب الوردية (التي قدمتها) كجزء من تداخل الصور */
         .img-abstract-2 {
             position: absolute;
             top: 0;
             right: 10%;
             width: 180px;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
         }
         
+        /* الشكل المعدني الـ 3D الكبير */
         .img-heads {
             position: absolute;
             bottom: -150px;
             right: 0;
             width: 450px;
+            filter: drop-shadow(0 15px 30px rgba(0,0,0,0.1));
         }
         
+        /* الزنبرك الـ 3D الوردي المدمج */
         .img-pink-coil {
             position: absolute;
             bottom: -80px;
             left: 20%;
             width: 150px;
             z-index: 3;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
         }
 
         /* --- Bottom Collections --- */
@@ -334,6 +357,100 @@
             font-weight: 800;
         }
 
+        /* =========================================
+           Responsive Design (Mobile & Tablets)
+           ========================================= */
+        @media (max-width: 992px) {
+            .hero-bottom {
+                padding: 0 50px;
+            }
+            .about-section {
+                padding: 50px;
+            }
+            .bottom-collections {
+                padding: 100px 50px 50px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Header */
+            header {
+                flex-direction: column;
+                padding: 20px;
+                gap: 20px;
+            }
+            .nav-links {
+                flex-direction: row;
+                justify-content: center;
+                gap: 20px;
+                flex-wrap: wrap;
+            }
+
+            /* Hero Section */
+            .hero-bg-text {
+                font-size: 22vw;
+                top: 15%;
+            }
+            .main-bag {
+                width: 95%; /* تكبير الصورة في الموبايل */
+                margin-top: 10px;
+            }
+            .hero-bottom {
+                flex-direction: column;
+                padding: 0 20px;
+                gap: 30px;
+                text-align: center;
+            }
+            .hero-bottom-right {
+                margin: 0 auto;
+            }
+
+            /* New Arrivals Section */
+            .new-arrivals {
+                padding: 50px 20px;
+                margin-top: 50px;
+            }
+            .section-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .section-header h2 {
+                font-size: 28px;
+                text-align: center;
+            }
+            .arrow {
+                display: none; /* الاعتماد على سحب الإصبع */
+            }
+            .product-card {
+                min-width: 260px;
+            }
+
+            /* About Section */
+            .about-section {
+                flex-direction: column;
+                padding: 50px 20px;
+                text-align: center;
+            }
+            .about-text {
+                width: 100%;
+                margin-bottom: 60px;
+            }
+            .about-images {
+                width: 100%;
+                height: 350px;
+            }
+            .img-abstract-1 { width: 100px; left: 0; }
+            .img-abstract-2 { width: 120px; right: 0; }
+            .img-heads { width: 280px; bottom: 0; right: 5%; }
+            .img-pink-coil { width: 100px; bottom: -40px; left: 5%; }
+            .hush-bg-text { font-size: 28vw; bottom: 0; left: 50%; transform: translateX(-50%); }
+
+            /* Bottom */
+            .bottom-collections {
+                padding: 80px 20px 40px;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -351,7 +468,7 @@
 
     <section class="hero">
         <div class="hero-bg-text">your piece</div>
-        <img src="https://via.placeholder.com/800x500/e69ab0/ffffff?text=Main+Pink+Bag+3D" alt="Pink Bag" class="main-bag">
+        <img src="pink_bags.png" alt="Pink Bags" class="main-bag">
         
         <div class="hero-bottom">
             <div class="hero-bottom-left">
@@ -402,7 +519,7 @@
 
                 <div class="product-card">
                     <div class="eco-badge">&#127807; ECO</div>
-                    <img src="https://via.placeholder.com/300x200/ffb6c1/ffffff?text=Pink+Bag" alt="Pink Bag">
+                    <img src="pink_bags.png" alt="Pink Bag" style="object-fit: contain; padding: 10px;">
                     <div class="product-info">
                         <div>
                             <h3>Naomi</h3>
@@ -438,8 +555,7 @@
         
         <div class="about-images">
             <img src="https://via.placeholder.com/150x150/888888/ffffff?text=Metal+Shape" alt="Abstract" class="img-abstract-1">
-            <img src="https://via.placeholder.com/180x180/e69ab0/ffffff?text=Pink+Bags+Small" alt="Pink Bags" class="img-abstract-2">
-            <img src="https://via.placeholder.com/450x500/cccccc/ffffff?text=Metallic+Heads" alt="Metallic Heads" class="img-heads">
+            <img src="pink_bags.png" alt="Pink Bags" class="img-abstract-2"> <img src="https://via.placeholder.com/450x500/cccccc/ffffff?text=Metallic+Heads" alt="Metallic Heads" class="img-heads">
         </div>
 
         <div class="hush-bg-text">HUSH</div>
@@ -457,13 +573,15 @@
 
         const scrollAmount = 340; 
 
-        nextBtn.addEventListener('click', () => {
-            slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-        });
+        if(nextBtn && prevBtn) {
+            nextBtn.addEventListener('click', () => {
+                slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            });
 
-        prevBtn.addEventListener('click', () => {
-            slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-        });
+            prevBtn.addEventListener('click', () => {
+                slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            });
+        }
     </script>
 </body>
 </html>
