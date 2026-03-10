@@ -20,6 +20,11 @@
             font-family: 'Montserrat', sans-serif;
         }
 
+        /* تفعيل النزول السلس عند الضغط على اللينكات */
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             background-color: var(--bg-light);
             color: var(--text-dark);
@@ -30,23 +35,29 @@
         header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             padding: 40px 50px;
-            position: relative;
-            z-index: 10;
+            position: absolute; /* عشان يفضل فوق والمحتوى ينزل تحته */
+            width: 100%;
+            z-index: 100;
         }
 
         .nav-links {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
             font-size: 14px;
             font-weight: 600;
             color: #888;
+            transition: 0.3s;
         }
 
-        .nav-links .active {
+        .nav-links a:hover, .nav-links a.active {
             color: var(--primary-pink);
         }
 
@@ -56,25 +67,23 @@
             color: var(--primary-pink);
             letter-spacing: 2px;
             text-transform: uppercase;
-        }
-
-        .search-icon {
-            font-size: 20px;
-            color: #888;
-            cursor: pointer;
+            text-decoration: none;
         }
 
         /* --- Hero Section --- */
         .hero {
             position: relative;
             text-align: center;
-            padding-top: 50px;
-            min-height: 80vh;
+            padding-top: 150px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .hero-bg-text {
             position: absolute;
-            top: 20%;
+            top: 25%;
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 18vw;
@@ -85,45 +94,30 @@
             letter-spacing: -5px;
         }
 
-        /* دمج الصورة الحقيقية للحقائب (pink_bags.png) في التصميم الـ 3D */
         .main-bag {
             position: relative;
-            z-index: 2;
-            width: 70%;
-            max-width: 800px; /* جعل الصورة أكبر وأوضح */
-            margin-top: -80px;
-            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.1));
-            transition: 0.5s;
+            z-index: 10;
+            width: 60%;
+            max-width: 600px;
+            margin-top: -30px;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15));
         }
 
         .hero-bottom {
             display: flex;
             justify-content: space-between;
+            width: 100%;
             padding: 0 100px;
-            margin-top: 80px;
+            margin-top: 50px;
             text-align: left;
+            position: relative;
+            z-index: 20; /* عشان الكلام ميتغطاش بكلمة your piece */
         }
 
-        .hero-bottom-left h4 {
-            font-weight: 600;
-            color: #888;
-            margin-bottom: 5px;
-        }
-
-        .hero-bottom-left h3 {
-            font-weight: 800;
-            font-size: 20px;
-        }
-
-        .hero-bottom-right {
-            max-width: 400px;
-        }
-
-        .hero-bottom-right p {
-            font-weight: 600;
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
+        .hero-bottom-left h4 { font-weight: 600; color: #888; margin-bottom: 5px; }
+        .hero-bottom-left h3 { font-weight: 800; font-size: 20px; }
+        .hero-bottom-right { max-width: 400px; }
+        .hero-bottom-right p { font-weight: 600; line-height: 1.5; margin-bottom: 15px; }
 
         .btn {
             display: inline-block;
@@ -138,61 +132,23 @@
             cursor: pointer;
             transition: 0.3s;
         }
-        
-        .btn:hover {
-            background-color: var(--dark-pink);
-        }
+        .btn:hover { background-color: var(--dark-pink); }
 
-        /* --- New Arrivals Section --- */
+        /* --- New Arrivals / Collections Section --- */
         .new-arrivals {
             background-color: var(--dark-pink);
             padding: 80px 50px;
-            margin-top: 100px;
             text-align: center;
             color: white;
         }
 
-        .section-header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
-            margin-bottom: 50px;
-        }
+        .section-header { display: flex; justify-content: center; align-items: center; gap: 30px; margin-bottom: 50px; }
+        .section-header h2 { font-size: 32px; font-weight: 800; letter-spacing: 2px; }
+        .section-header span { color: rgba(255,255,255,0.6); font-weight: 600; }
 
-        .section-header h2 {
-            font-size: 32px;
-            font-weight: 800;
-            letter-spacing: 2px;
-        }
-
-        .section-header span {
-            color: rgba(255,255,255,0.6);
-            font-weight: 600;
-        }
-
-        .carousel-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            position: relative;
-        }
-
-        .carousel {
-            display: flex;
-            gap: 40px;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            max-width: 1000px;
-            padding: 10px;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        .carousel::-webkit-scrollbar {
-            display: none;
-        }
+        .carousel-wrapper { display: flex; align-items: center; justify-content: center; gap: 20px; }
+        .carousel { display: flex; gap: 40px; overflow-x: auto; scroll-behavior: smooth; max-width: 1000px; padding: 10px; -ms-overflow-style: none; scrollbar-width: none; }
+        .carousel::-webkit-scrollbar { display: none; }
 
         .product-card {
             background-color: rgba(255, 255, 255, 0.2);
@@ -200,275 +156,66 @@
             border-radius: 40px;
             min-width: 300px;
             position: relative;
-            transition: 0.3s;
+            transition: transform 0.3s;
         }
-        
-        .product-card:hover {
-            transform: translateY(-5px);
-            background-color: rgba(255, 255, 255, 0.3);
-        }
+        .product-card:hover { transform: translateY(-5px); }
 
-        .eco-badge {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(255,255,255,0.8);
-            color: var(--dark-pink);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 800;
-        }
+        .eco-badge { position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.8); color: var(--dark-pink); padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: 800; }
+        .product-card img { width: 100%; height: 200px; object-fit: contain; margin-bottom: 20px; }
+        .product-info { display: flex; justify-content: space-between; align-items: center; text-align: left; }
+        .product-info h3 { font-size: 18px; margin-bottom: 5px; }
+        .product-info p { font-size: 14px; opacity: 0.8; }
 
-        .product-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: contain;
-            margin-bottom: 20px;
-        }
+        .btn-small { background-color: white; color: var(--dark-pink); padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: 600; text-decoration: none; }
+        .btn-small:hover { background-color: var(--text-dark); color: white; }
+        .arrow { color: rgba(255,255,255,0.8); font-size: 32px; cursor: pointer; transition: 0.3s; user-select: none; }
+        .arrow:hover { color: white; transform: scale(1.2); }
 
-        .product-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-align: left;
-        }
-
-        .product-info h3 {
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-        
-        .product-info p {
-            font-size: 14px;
-            opacity: 0.8;
-        }
-
-        .btn-small {
-            background-color: white;
-            color: var(--dark-pink);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .btn-small:hover {
-            background-color: var(--text-dark);
-            color: white;
-        }
-
-        .arrow {
-            color: rgba(255,255,255,0.8);
-            font-size: 32px;
-            cursor: pointer;
-            transition: 0.3s;
-            user-select: none;
-        }
-
-        .arrow:hover {
-            color: white;
-            transform: scale(1.2);
-        }
-
-        /* --- About Section (Lower) --- */
+        /* --- About Section --- */
         .about-section {
             display: flex;
-            padding: 100px 100px;
+            padding: 100px;
             position: relative;
             min-height: 80vh;
+            align-items: center;
         }
 
-        .about-text {
-            width: 40%;
-            z-index: 2;
-        }
+        .about-text { width: 40%; z-index: 2; }
+        .about-text p { color: #666; line-height: 1.6; margin-bottom: 20px; font-size: 14px; }
+        .hush-bg-text { font-size: 15vw; font-weight: 900; color: var(--primary-pink); position: absolute; bottom: -50px; left: 50px; z-index: 1; letter-spacing: -2px; }
 
-        .about-text p {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
+        .about-images { width: 60%; position: relative; z-index: 2; height: 500px; }
+        .img-abstract-1 { position: absolute; top: 0; left: 10%; width: 150px; }
+        .img-abstract-2 { position: absolute; top: 20px; right: 10%; width: 180px; }
+        .img-heads { position: absolute; bottom: -50px; right: 0; width: 400px; }
+        .img-pink-coil { position: absolute; bottom: 0; left: 20%; width: 150px; z-index: 3; }
 
-        .hush-bg-text {
-            font-size: 15vw;
-            font-weight: 900;
-            color: var(--primary-pink);
-            position: absolute;
-            bottom: -50px;
-            left: 50px;
-            z-index: 1;
-            letter-spacing: -2px;
+        /* --- Reviews Section --- */
+        .reviews-section {
+            padding: 100px;
+            background-color: #f9f9f9;
+            text-align: center;
         }
+        .reviews-section h2 { font-size: 32px; font-weight: 800; margin-bottom: 20px; }
 
-        .about-images {
-            width: 60%;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* دمج الأشكال الـ 3D مع الحقائب الحقيقية */
-        .img-abstract-1 {
-            position: absolute;
-            top: -50px;
-            left: 10%;
-            width: 150px;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
-        }
-        
-        /* دمج الحقائب الوردية (التي قدمتها) كجزء من تداخل الصور */
-        .img-abstract-2 {
-            position: absolute;
-            top: 0;
-            right: 10%;
-            width: 180px;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
-        }
-        
-        /* الشكل المعدني الـ 3D الكبير */
-        .img-heads {
-            position: absolute;
-            bottom: -150px;
-            right: 0;
-            width: 450px;
-            filter: drop-shadow(0 15px 30px rgba(0,0,0,0.1));
-        }
-        
-        /* الزنبرك الـ 3D الوردي المدمج */
-        .img-pink-coil {
-            position: absolute;
-            bottom: -80px;
-            left: 20%;
-            width: 150px;
-            z-index: 3;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
-        }
-
-        /* --- Bottom Collections --- */
-        .bottom-collections {
-            padding: 150px 100px 50px;
-        }
-
-        .bottom-collections h2 {
-            font-size: 24px;
-            font-weight: 800;
-        }
-
-        /* =========================================
-           Responsive Design (Mobile & Tablets)
-           ========================================= */
-        @media (max-width: 992px) {
-            .hero-bottom {
-                padding: 0 50px;
-            }
-            .about-section {
-                padding: 50px;
-            }
-            .bottom-collections {
-                padding: 100px 50px 50px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            /* Header */
-            header {
-                flex-direction: column;
-                padding: 20px;
-                gap: 20px;
-            }
-            .nav-links {
-                flex-direction: row;
-                justify-content: center;
-                gap: 20px;
-                flex-wrap: wrap;
-            }
-
-            /* Hero Section */
-            .hero-bg-text {
-                font-size: 22vw;
-                top: 15%;
-            }
-            .main-bag {
-                width: 95%; /* تكبير الصورة في الموبايل */
-                margin-top: 10px;
-            }
-            .hero-bottom {
-                flex-direction: column;
-                padding: 0 20px;
-                gap: 30px;
-                text-align: center;
-            }
-            .hero-bottom-right {
-                margin: 0 auto;
-            }
-
-            /* New Arrivals Section */
-            .new-arrivals {
-                padding: 50px 20px;
-                margin-top: 50px;
-            }
-            .section-header {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .section-header h2 {
-                font-size: 28px;
-                text-align: center;
-            }
-            .arrow {
-                display: none; /* الاعتماد على سحب الإصبع */
-            }
-            .product-card {
-                min-width: 260px;
-            }
-
-            /* About Section */
-            .about-section {
-                flex-direction: column;
-                padding: 50px 20px;
-                text-align: center;
-            }
-            .about-text {
-                width: 100%;
-                margin-bottom: 60px;
-            }
-            .about-images {
-                width: 100%;
-                height: 350px;
-            }
-            .img-abstract-1 { width: 100px; left: 0; }
-            .img-abstract-2 { width: 120px; right: 0; }
-            .img-heads { width: 280px; bottom: 0; right: 5%; }
-            .img-pink-coil { width: 100px; bottom: -40px; left: 5%; }
-            .hush-bg-text { font-size: 28vw; bottom: 0; left: 50%; transform: translateX(-50%); }
-
-            /* Bottom */
-            .bottom-collections {
-                padding: 80px 20px 40px;
-                text-align: center;
-            }
-        }
     </style>
 </head>
 <body>
 
     <header>
         <ul class="nav-links">
-            <li class="active">Explore &rarr;</li>
-            <li>Collections</li>
-            <li>About</li>
-            <li>Reviews</li>
+            <li><a href="#explore" class="active">Explore &rarr;</a></li>
+            <li><a href="#collections">Collections</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#reviews">Reviews</a></li>
         </ul>
-        <div class="logo">HUSH</div>
+        <a href="#explore" class="logo">HUSH</a>
         <div class="search">&#128269;</div>
     </header>
 
-    <section class="hero">
+    <section id="explore" class="hero">
         <div class="hero-bg-text">your piece</div>
-        <img src="pink_bags.png" alt="Pink Bags" class="main-bag">
+        <img src="https://png.pngtree.com/png-vector/20230811/ourmid/pngtree-pink-bag-vector-png-image_6851608.png" alt="Pink Bag" class="main-bag">
         
         <div class="hero-bottom">
             <div class="hero-bottom-left">
@@ -477,12 +224,12 @@
             </div>
             <div class="hero-bottom-right">
                 <p>Each HUSH brand bag is the perfect combination of creativity and practicality.</p>
-                <a href="#" class="btn">Learn more &rarr;</a>
+                <a href="#about" class="btn">Learn more &rarr;</a>
             </div>
         </div>
     </section>
 
-    <section class="new-arrivals">
+    <section id="collections" class="new-arrivals">
         <div class="section-header">
             <span>Bloggers' Choice</span>
             <h2>NEW ARRIVALS</h2>
@@ -491,79 +238,46 @@
 
         <div class="carousel-wrapper">
             <span class="arrow" id="prevBtn">&larr;</span>
-            
             <div class="carousel" id="slider">
                 <div class="product-card">
                     <div class="eco-badge">&#127807; ECO</div>
                     <img src="https://via.placeholder.com/300x200/cccccc/ffffff?text=Silver+Bag" alt="Silver Bag">
-                    <div class="product-info">
-                        <div>
-                            <h3>Sabrina</h3>
-                            <p>220$</p>
-                        </div>
-                        <a href="#" class="btn-small">Learn more</a>
-                    </div>
+                    <div class="product-info"><div><h3>Sabrina</h3><p>220$</p></div><a href="#" class="btn-small">Learn more</a></div>
                 </div>
-
                 <div class="product-card">
                     <div class="eco-badge">&#127807; ECO</div>
                     <img src="https://via.placeholder.com/300x200/eeeeee/888888?text=White+Bag" alt="White Bag">
-                    <div class="product-info">
-                        <div>
-                            <h3>Brielle</h3>
-                            <p>200$</p>
-                        </div>
-                        <a href="#" class="btn-small">Learn more</a>
-                    </div>
+                    <div class="product-info"><div><h3>Brielle</h3><p>200$</p></div><a href="#" class="btn-small">Learn more</a></div>
                 </div>
-
                 <div class="product-card">
                     <div class="eco-badge">&#127807; ECO</div>
-                    <img src="pink_bags.png" alt="Pink Bag" style="object-fit: contain; padding: 10px;">
-                    <div class="product-info">
-                        <div>
-                            <h3>Naomi</h3>
-                            <p>235$</p>
-                        </div>
-                        <a href="#" class="btn-small">Learn more</a>
-                    </div>
-                </div>
-                
-                <div class="product-card">
-                    <div class="eco-badge">&#127807; ECO</div>
-                    <img src="https://via.placeholder.com/300x200/e69ab0/ffffff?text=Rose+Bag" alt="Rose Bag">
-                    <div class="product-info">
-                        <div>
-                            <h3>Chloe</h3>
-                            <p>250$</p>
-                        </div>
-                        <a href="#" class="btn-small">Learn more</a>
-                    </div>
+                    <img src="https://png.pngtree.com/png-vector/20230811/ourmid/pngtree-pink-bag-vector-png-image_6851608.png" alt="Pink Bag" style="padding:10px;">
+                    <div class="product-info"><div><h3>Naomi</h3><p>235$</p></div><a href="#" class="btn-small">Learn more</a></div>
                 </div>
             </div>
-
             <span class="arrow" id="nextBtn">&rarr;</span>
         </div>
     </section>
 
-    <section class="about-section">
+    <section id="about" class="about-section">
         <div class="about-text">
             <p>Our team is passionate about futurism and innovation, and we bring this passion to life in every bag we make.</p>
-            <p>We love experimenting with modern materials, technologies and shapes to create products that not only meet your needs, but also inspire new possibilities. Together we explore the future of fashion and functionality, creating bags that will become your faithful companions in the fast-paced world of modern life.</p>
-            <a href="#" class="btn" style="margin-top: 20px;">More about us &rarr;</a>
+            <p>We love experimenting with modern materials, technologies and shapes to create products that not only meet your needs, but also inspire new possibilities.</p>
         </div>
         
         <div class="about-images">
             <img src="https://via.placeholder.com/150x150/888888/ffffff?text=Metal+Shape" alt="Abstract" class="img-abstract-1">
-            <img src="pink_bags.png" alt="Pink Bags" class="img-abstract-2"> <img src="https://via.placeholder.com/450x500/cccccc/ffffff?text=Metallic+Heads" alt="Metallic Heads" class="img-heads">
+            <img src="https://png.pngtree.com/png-vector/20230811/ourmid/pngtree-pink-bag-vector-png-image_6851608.png" alt="Pink Bags" class="img-abstract-2">
+            <img src="https://via.placeholder.com/450x500/cccccc/ffffff?text=Metallic+Heads" alt="Metallic Heads" class="img-heads">
         </div>
 
         <div class="hush-bg-text">HUSH</div>
         <img src="https://via.placeholder.com/150x200/ffb6c1/ffffff?text=Pink+Coil" alt="Pink Coil" class="img-pink-coil">
     </section>
 
-    <section class="bottom-collections">
-        <h2>Our collections</h2>
+    <section id="reviews" class="reviews-section">
+        <h2>Customer Reviews</h2>
+        <p>Our clients love their HUSH pieces. (Here you can add dynamic reviews later from the database!)</p>
     </section>
 
     <script>
@@ -571,16 +285,9 @@
         const nextBtn = document.getElementById('nextBtn');
         const prevBtn = document.getElementById('prevBtn');
 
-        const scrollAmount = 340; 
-
         if(nextBtn && prevBtn) {
-            nextBtn.addEventListener('click', () => {
-                slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-            });
-
-            prevBtn.addEventListener('click', () => {
-                slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-            });
+            nextBtn.addEventListener('click', () => slider.scrollBy({ left: 340, behavior: 'smooth' }));
+            prevBtn.addEventListener('click', () => slider.scrollBy({ left: -340, behavior: 'smooth' }));
         }
     </script>
 </body>
