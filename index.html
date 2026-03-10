@@ -1,16 +1,418 @@
 <!DOCTYPE html>
-<html dir="rtl" lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>Fluffia Store | متجر فلافيا</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluffia | قريباً - عالم من الورد الفاخر</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Palette colors from your image */
+            --rose-quartz: #F9CBD6;
+            --blush: #F2AFBC;
+            --red-wine: #9E182B;
+            --oat-milk: #F2E0D2;
+            --text-on-dark: #FFFFFF;
+        }
+
+        /* --- Global Style --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--oat-milk);
+            color: var(--red-wine);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, .logo {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* --- Header --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background-color: transparent;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            transition: background-color 0.3s;
+        }
+
+        header.scrolled {
+            background-color: rgba(249, 203, 214, 0.9); /* Translucent Rose Quartz */
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--red-wine);
+            letter-spacing: 1px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--red-wine);
+            margin: 0 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--blush);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--rose-quartz) 0%, var(--oat-milk) 100%);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            letter-spacing: 10px;
+            color: var(--red-wine);
+            margin-bottom: 20px;
+            animation: letterSpacingIn 1.5s ease;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 600px;
+            margin-bottom: 40px;
+            color: var(--red-wine);
+        }
+
+        .hero-btn {
+            padding: 15px 40px;
+            background-color: var(--red-wine);
+            color: var(--oat-milk);
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .hero-btn:hover {
+            transform: scale(1.05);
+            background-color: var(--blush);
+            color: var(--red-wine);
+        }
+
+        /* --- Products Section --- */
+        .products {
+            padding: 80px 5%;
+            text-align: center;
+        }
+
+        .products h2 {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background-color: #FFFFFF;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .img-placeholder {
+            width: 100%;
+            height: 250px;
+            background-color: var(--rose-quartz);
+            border: 1px dashed var(--blush);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: var(--red-wine);
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .soon-badge {
+            display: inline-block;
+            background-color: var(--red-wine);
+            color: var(--oat-milk);
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* --- Pop-up Overlay --- */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Translucent Black */
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .popup-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-box {
+            background-color: #FFFFFF;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: scale(0.8);
+            transition: transform 0.5s;
+        }
+
+        .popup-overlay.show .popup-box {
+            transform: scale(1);
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: var(--red-wine);
+            cursor: pointer;
+            font-weight: bold;
+            background: none;
+            border: none;
+        }
+
+        .popup-close:hover {
+            color: var(--blush);
+        }
+
+        .popup-box h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--red-wine);
+        }
+
+        .popup-box p {
+            margin-bottom: 30px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .popup-form input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid var(--oat-milk);
+            border-radius: 10px;
+            font-family: inherit;
+        }
+
+        .popup-form input:focus {
+            outline: none;
+            border-color: var(--blush);
+        }
+
+        .popup-form button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--blush);
+            color: var(--red-wine);
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .popup-form button:hover {
+            background-color: var(--red-wine);
+            color: var(--oat-milk);
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes letterSpacingIn {
+            from { letter-spacing: 0; opacity: 0; }
+            to { letter-spacing: 10px; opacity: 1; }
+        }
+
+        /* JavaScript class for on-scroll show */
+        .show-on-scroll {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+    </style>
 </head>
-<body style="background-color: #fdfaf6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;">
-    
-    <div style="text-align: center; padding: 40px; background-color: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-        <h1 style="color: #ff6b81; font-size: 3em; margin-bottom: 10px;">✨ Fluffia Store ✨</h1>
-        <h2 style="color: #2f3542;">مرحباً بك في متجر فلافيا</h2>
-        <p style="color: #57606f; font-size: 1.2em;">الموقع حالياً تحت التجهيز، استعدوا لتشكيلة مميزة قريباً!</p>
+<body>
+
+    <header id="main-header">
+        <div class="logo">fluffia</div>
+        <nav>
+            <a href="#hero">الرئيسية</a>
+            <a href="#products">الكتالوج</a>
+            <a href="#popup">تنبيهات</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="hero">
+        <p>عالم من الأناقة والتصميم الوردى</p>
+        <h1>FLUFFIA</h1>
+        <p>نسجنا أرقى تنسيقات الزهور الفاخرة لتكون قريبة منك. استعد لتجربة تفيض بالرقة والجمال، قريباً في حلتنا الجديدة.</p>
+        <button class="hero-btn" id="explore-btn">اكتشف المجموعة</button>
+    </section>
+
+    <section class="products" id="products">
+        <h2>أبرز إبداعاتنا</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="img-placeholder">باقة سكارليت</div>
+                <h3>باقة سكارليت الكلاسيكية</h3>
+                <p>مزيج ساحر من الجوري الأحمر والبيبي روز.</p>
+                <span class="soon-badge">قريباً</span>
+            </div>
+            <div class="card">
+                <div class="img-placeholder">باقة لونا</div>
+                <h3>باقة لونا الهادئة</h3>
+                <p>تدرجات الباستيل الناعمة مع لمسات من الخزامى.</p>
+                <span class="soon-badge">قريباً</span>
+            </div>
+            <div class="card">
+                <div class="img-placeholder">باقة سيليست</div>
+                <h3>باقة سيليست الفاخرة</h3>
+                <p>تصميم مميز من الكالا وزنبق الكازابلانكا.</p>
+                <span class="soon-badge">قريباً</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="popup-overlay" id="popup">
+        <div class="popup-box">
+            <button class="popup-close" id="close-popup">&times;</button>
+            <h2>حصري لـ Fluffia</h2>
+            <p>سجل معنا لتكون أول من يعرف عند إطلاق مجموعتنا الجديدة، واحصل على رمز خصم خاص 15% على طلبك الأول!</p>
+            <form class="popup-form">
+                <input type="text" placeholder="الاسم الكامل" required>
+                <input type="email" placeholder="البريد الإلكتروني" required>
+                <button type="submit">سجل الآن</button>
+            </form>
+        </div>
     </div>
+
+    <script>
+        // --- Pop-up Logic ---
+        const popup = document.getElementById('popup');
+        const closePopup = document.getElementById('close-popup');
+
+        // Show popup after 3 seconds on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                popup.classList.add('show');
+            }, 3000);
+        });
+
+        // Close popup when clicking 'X'
+        closePopup.addEventListener('click', () => {
+            popup.classList.remove('show');
+        });
+
+        // Close popup when clicking outside the box
+        popup.addEventListener('click', (event) => {
+            if (event.target === popup) {
+                popup.classList.remove('show');
+            }
+        });
+
+
+        // --- Header Scroll Effect ---
+        const header = document.getElementById('main-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+
+        // --- Scroll-to-Section Buttons ---
+        const exploreBtn = document.getElementById('explore-btn');
+        exploreBtn.addEventListener('click', () => {
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+        });
+
+
+        // --- On-Scroll Animations for Cards ---
+        const cards = document.querySelectorAll('.card');
+
+        // Observer to apply animation when card enters viewport
+        const observerOptions = {
+            threshold: 0.1 // Apply animation when 10% of card is visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show-on-scroll');
+                    observer.unobserve(entry.target); // Animates only once
+                }
+            });
+        }, observerOptions);
+
+        cards.forEach(card => {
+            observer.observe(card);
+        });
+    </script>
 
 </body>
 </html>
