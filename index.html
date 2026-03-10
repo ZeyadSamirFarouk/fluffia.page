@@ -1,242 +1,762 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fluffia | High-End Floral Studio</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=IBM+Plex+Sans+Arabic:wght@300;500&display=swap" rel="stylesheet">
-    
+    <title>Fluffia | متجر الأزهار الفاخر</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <style>
-        /* CSS Variables for Theming */
-        :root[data-theme="light"] {
-            --bg: #fdf6f6;
-            --card-bg: #ffffff;
-            --text: #1a1a1a;
-            --accent: #fb6f92;
-            --secondary: #ffc2d1;
-            --nav-bg: rgba(253, 246, 246, 0.85);
+        /* ─── Color Palette ─── */
+        :root {
+            --rose-quartz: #F9CBD6;
+            --blush:       #F2AFBC;
+            --red-wine:    #9E182B;
+            --oat-milk:    #F2E0D2;
+            --white:       #ffffff;
+            --text-dark:   #3a1a20;
+            --shadow:      rgba(158, 24, 43, 0.12);
         }
 
-        :root[data-theme="dark"] {
-            --bg: #121212;
-            --card-bg: #1e1e1e;
-            --text: #f5f5f5;
-            --accent: #ff8fab;
-            --secondary: #4a1d28;
-            --nav-bg: rgba(18, 18, 18, 0.85);
-        }
+        /* ─── Reset & Base ─── */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.4s, color 0.4s; }
-        body { 
-            font-family: 'Playfair Display', serif; 
-            background-color: var(--bg); 
-            color: var(--text);
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            background: var(--oat-milk);
+            color: var(--text-dark);
             overflow-x: hidden;
+            direction: rtl;
         }
 
-        body.rtl { font-family: 'IBM Plex Sans Arabic', sans-serif; direction: rtl; }
+        /* ─── Floating Petals ─── */
+        #petals-canvas {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none; z-index: 0;
+        }
 
-        /* UI Helpers */
-        .container { padding: 0 10%; }
-        
-        /* Navigation */
+        /* ─── Navigation ─── */
         nav {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 10%; position: fixed; width: 100%; z-index: 1000;
-            background: var(--nav-bg); backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--secondary);
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(242, 224, 210, 0.88);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--blush);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 8%;
+            height: 72px;
         }
-        .logo { font-size: 1.6rem; font-weight: bold; letter-spacing: 3px; }
-        .controls { display: flex; gap: 15px; align-items: center; }
-        .btn-icon { 
-            background: none; border: 1px solid var(--secondary); 
-            color: var(--text); padding: 5px 12px; cursor: pointer; 
-            border-radius: 20px; font-size: 0.8rem;
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a {
+            text-decoration: none; color: var(--text-dark);
+            font-size: 0.9rem; font-weight: 500; letter-spacing: 1px;
+            position: relative; padding-bottom: 3px;
+            transition: color 0.3s;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: 0; right: 0;
+            width: 0; height: 1px; background: var(--red-wine);
+            transition: width 0.3s;
+        }
+        .nav-links a:hover { color: var(--red-wine); }
+        .nav-links a:hover::after { width: 100%; }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem; font-style: italic;
+            color: var(--red-wine); letter-spacing: 2px;
+            text-decoration: none;
         }
 
-        /* Hero */
+        .nav-right { display: flex; gap: 12px; align-items: center; }
+        .btn-lang {
+            background: none; border: 1px solid var(--blush);
+            color: var(--text-dark); padding: 5px 14px;
+            border-radius: 20px; font-size: 0.8rem;
+            cursor: pointer; font-family: inherit;
+            transition: all 0.3s;
+        }
+        .btn-lang:hover { background: var(--blush); }
+
+        /* ─── Hero ─── */
         .hero {
-            height: 100vh; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; text-align: center;
+            min-height: 100vh;
+            background: linear-gradient(160deg, var(--rose-quartz) 0%, var(--oat-milk) 60%);
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; position: relative; overflow: hidden;
+            padding: 100px 8% 60px;
+        }
+        .hero-inner { position: relative; z-index: 1; }
+
+        .hero-eyebrow {
+            font-size: 0.85rem; letter-spacing: 4px; text-transform: uppercase;
+            color: var(--red-wine); opacity: 0.7; margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(4rem, 12vw, 11rem);
+            line-height: 0.95; color: var(--red-wine);
+            text-shadow: 0 4px 20px rgba(158, 24, 43, 0.15);
+            margin-bottom: 24px; letter-spacing: -1px;
+        }
+        .hero h1 span { font-style: italic; }
+
+        .hero-sub {
+            font-size: clamp(1rem, 2vw, 1.3rem); color: var(--text-dark);
+            opacity: 0.75; max-width: 480px; margin: 0 auto 40px; line-height: 1.7;
+        }
+
+        .hero-decor {
+            position: absolute; border-radius: 50%;
+            background: var(--blush); opacity: 0.35; pointer-events: none;
+        }
+        .hero-decor-1 { width: 350px; height: 350px; top: -80px; left: -80px; }
+        .hero-decor-2 { width: 200px; height: 200px; bottom: 60px; right: 5%; }
+        .hero-decor-3 { width: 100px; height: 100px; top: 30%; left: 10%; }
+
+        /* ─── Buttons ─── */
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--red-wine); color: #fff;
+            padding: 14px 36px; border-radius: 50px;
+            font-family: inherit; font-size: 1rem; font-weight: 600;
+            text-decoration: none; border: none; cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 8px 24px var(--shadow);
+        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 32px var(--shadow); }
+        .btn-primary:active { transform: translateY(0); }
+
+        .btn-whatsapp {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: #25D366; color: #fff;
+            padding: 11px 26px; border-radius: 50px;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600;
+            text-decoration: none; border: none; cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 6px 18px rgba(37, 211, 102, 0.35);
+            margin-top: 18px; width: 100%; justify-content: center;
+        }
+        .btn-whatsapp:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(37, 211, 102, 0.45); }
+        .btn-whatsapp svg { width: 20px; height: 20px; fill: #fff; flex-shrink: 0; }
+
+        /* ─── Section Base ─── */
+        section { padding: 90px 8%; position: relative; z-index: 1; }
+        .section-header {
+            display: flex; align-items: baseline; justify-content: space-between;
+            margin-bottom: 50px; flex-wrap: wrap; gap: 16px;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.6rem, 3vw, 2.4rem); color: var(--text-dark);
+            position: relative; padding-bottom: 12px;
+        }
+        .section-title::after {
+            content: ''; position: absolute; bottom: 0; right: 0;
+            width: 55px; height: 3px;
+            background: linear-gradient(90deg, var(--red-wine), var(--blush));
+            border-radius: 2px;
+        }
+
+        /* ─── Products Grid ─── */
+        .products-section { background: var(--white); }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 28px;
+        }
+
+        .product-card {
+            background: var(--white); border-radius: 18px;
+            overflow: hidden; box-shadow: 0 8px 30px var(--shadow);
+            transition: transform 0.4s, box-shadow 0.4s;
             position: relative;
         }
-        .hero h1 { font-size: 10vw; line-height: 1; margin-bottom: 20px; }
-        .hero p { font-size: 1.2rem; font-style: italic; opacity: 0.8; }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px var(--shadow); }
 
-        /* Floating Petals Container */
-        #petals-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
-
-        /* Shop Section */
-        .section { padding: 100px 0; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 50px; }
-        
-        .card {
-            background: var(--card-bg); padding: 15px; border-radius: 2px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center;
-        }
-        .card img { width: 100%; height: 400px; object-fit: cover; filter: grayscale(20%); transition: 0.5s; }
-        .card:hover img { filter: grayscale(0%); transform: scale(1.02); }
-        
-        .coming-soon {
-            display: inline-block; margin-top: 15px; padding: 6px 20px;
-            background: var(--secondary); color: var(--accent);
-            font-size: 0.7rem; font-weight: bold; border-radius: 30px;
+        .card-badge {
+            position: absolute; top: 14px; right: 14px; z-index: 2;
+            background: var(--red-wine); color: #fff;
+            font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+            padding: 4px 12px; border-radius: 20px;
         }
 
-        /* Pop-up Tab (Modal) */
-        .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 2000; backdrop-filter: blur(5px);
+        .card-img-wrap { overflow: hidden; height: 300px; }
+        .card-img-wrap img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.5s ease;
         }
-        .modal-content {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: var(--card-bg); padding: 50px; text-align: center;
-            width: 90%; max-width: 500px; border-radius: 20px;
+        .product-card:hover .card-img-wrap img { transform: scale(1.06); }
+
+        .card-body { padding: 20px 20px 24px; text-align: center; }
+        .card-body h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem; color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+        .card-price-tag {
+            display: inline-block; background: var(--rose-quartz);
+            color: var(--red-wine); font-weight: 700;
+            font-size: 0.85rem; padding: 4px 18px;
+            border-radius: 20px; margin-bottom: 6px; letter-spacing: 1px;
+        }
+        .card-desc {
+            font-size: 0.82rem; color: var(--text-dark);
+            opacity: 0.6; line-height: 1.6; margin-bottom: 4px;
         }
 
-        .main-btn {
-            background: var(--accent); color: white; border: none;
-            padding: 12px 35px; cursor: pointer; border-radius: 50px;
-            font-family: inherit; margin-top: 20px;
+        /* ─── Categories ─── */
+        .categories-section { background: var(--oat-milk); }
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .cat-card {
+            border-radius: 16px; overflow: hidden; position: relative;
+            cursor: pointer; box-shadow: 0 6px 20px var(--shadow);
+            transition: transform 0.3s;
+        }
+        .cat-card:hover { transform: translateY(-5px); }
+        .cat-card img { width: 100%; height: 200px; object-fit: cover; display: block; transition: transform 0.5s; }
+        .cat-card:hover img { transform: scale(1.06); }
+        .cat-label {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(158,24,43,0.75));
+            color: #fff; padding: 20px 16px 16px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem; font-weight: 700;
+        }
+        .cat-sub { font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 0.75rem; opacity: 0.85; font-weight: 400; }
+
+        /* ─── About Strip ─── */
+        .about-section {
+            background: linear-gradient(135deg, var(--rose-quartz) 0%, var(--blush) 100%);
+        }
+        .about-inner {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+        }
+        .about-text h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3vw, 2.6rem); color: var(--red-wine);
+            margin-bottom: 20px; line-height: 1.2;
+        }
+        .about-text p { line-height: 1.9; opacity: 0.8; margin-bottom: 30px; font-size: 1rem; }
+        .about-imgs {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+        }
+        .about-imgs img {
+            width: 100%; aspect-ratio: 4/5; object-fit: cover;
+            border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        .about-imgs img:first-child { margin-top: 30px; }
+
+        /* ─── Newsletter ─── */
+        .newsletter-section { background: var(--oat-milk); }
+        .newsletter-box {
+            background: linear-gradient(135deg, var(--rose-quartz), var(--blush));
+            border-radius: 24px; padding: 60px 8%;
+            text-align: center; max-width: 750px; margin: 0 auto;
+            box-shadow: 0 16px 50px var(--shadow);
+        }
+        .newsletter-box h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem; color: var(--red-wine); margin-bottom: 12px;
+        }
+        .newsletter-box p { opacity: 0.75; margin-bottom: 30px; }
+        .nl-form { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+        .nl-form input {
+            flex: 1 1 240px; padding: 13px 20px;
+            border-radius: 50px; border: none;
+            background: #fff; font-family: inherit;
+            font-size: 0.95rem; color: var(--text-dark);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+            outline: none;
+        }
+        .nl-form input:focus { box-shadow: 0 0 0 2px var(--red-wine); }
+
+        /* ─── Footer ─── */
+        footer {
+            background: var(--text-dark); color: #e8c8d0; padding: 60px 8% 30px;
+        }
+        .footer-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 40px; margin-bottom: 40px;
+        }
+        .footer-brand .logo { color: var(--rose-quartz); font-size: 1.5rem; display: block; margin-bottom: 12px; }
+        .footer-brand p { font-size: 0.85rem; opacity: 0.6; line-height: 1.8; }
+        .footer-col h4 {
+            font-family: 'Playfair Display', serif; font-size: 1.05rem;
+            color: var(--rose-quartz); margin-bottom: 14px;
+        }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 8px; }
+        .footer-col ul li a { color: #e8c8d0; text-decoration: none; font-size: 0.85rem; opacity: 0.7; transition: opacity 0.2s; }
+        .footer-col ul li a:hover { opacity: 1; }
+        .footer-bottom {
+            border-top: 1px solid rgba(249,203,214,0.15);
+            padding-top: 24px; text-align: center;
+            font-size: 0.8rem; opacity: 0.45;
         }
 
-        /* Animations */
-        .reveal { opacity: 0; transform: translateY(30px); }
+        /* ─── Scroll Reveal helper ─── */
+        .reveal { opacity: 0; transform: translateY(40px); }
+        /* Hero h1 has its own initial animation state */
+        .hero h1.reveal { transform: scale(0.85); }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 768px) {
+            nav { padding: 0 5%; }
+            .nav-links { display: none; }
+            section { padding: 60px 5%; }
+            .about-inner { grid-template-columns: 1fr; }
+            .about-imgs { display: none; }
+            .hero { padding: 100px 5% 50px; }
+            .section-header { flex-direction: column; }
+        }
+        @media (max-width: 480px) {
+            .products-grid { grid-template-columns: 1fr; }
+            .categories-grid { grid-template-columns: 1fr 1fr; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="modal-overlay" id="modal">
-        <div class="modal-content">
-            <h2 id="modal-title">Our Newsletter</h2>
-            <p id="modal-desc">Stay updated with our blooming collections.</p>
-            <input type="email" placeholder="Email address" style="width: 100%; padding: 10px; margin-top: 20px; background: var(--bg); border: 1px solid var(--secondary); color: var(--text);">
-            <button class="main-btn" onclick="closePopup()">Subscribe</button>
-        </div>
-    </div>
-
+    <!-- ═══ NAV ═══ -->
     <nav>
-        <div class="logo">FLUFFIA</div>
-        <div class="controls">
-            <button class="btn-icon" onclick="toggleLanguage()" id="lang-btn">العربية</button>
-            <button class="btn-icon" onclick="toggleTheme()" id="theme-btn">🌙 Night</button>
+        <ul class="nav-links">
+            <li><a href="#shop">المنتجات</a></li>
+            <li><a href="#categories">الفئات</a></li>
+            <li><a href="#about">عن فلافيا</a></li>
+        </ul>
+        <a href="#" class="logo">Fluffia</a>
+        <div class="nav-right">
+            <button class="btn-lang" onclick="toggleLanguage()" id="lang-btn">English</button>
         </div>
     </nav>
 
-    <div id="petals-container"></div>
+    <!-- Petals canvas -->
+    <canvas id="petals-canvas"></canvas>
 
-    <section class="hero container">
-        <h1 class="reveal" id="hero-title">Fluffia</h1>
-        <p class="reveal" id="hero-sub">Stimulate your senses with premium florals</p>
-        <button class="main-btn reveal" onclick="openPopup()" id="hero-btn">Explore Studio</button>
+    <!-- ═══ HERO ═══ -->
+    <section class="hero" id="home">
+        <div class="hero-decor hero-decor-1"></div>
+        <div class="hero-decor hero-decor-2"></div>
+        <div class="hero-decor hero-decor-3"></div>
+        <div class="hero-inner">
+            <p class="hero-eyebrow reveal" id="hero-eyebrow">متجر الأزهار الفاخر</p>
+            <h1 class="reveal"><span id="hero-title">Fluffia</span></h1>
+            <p class="hero-sub reveal" id="hero-sub">تشكيلات زهور فاخرة تُحاكي أجمل اللحظات</p>
+            <a href="#shop" class="btn-primary reveal" id="hero-btn">
+                <span>تسوّقي الآن</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </div>
     </section>
 
-    <section class="section container" id="shop">
-        <h2 class="reveal" id="shop-title">Special Offers</h2>
-        <div class="grid">
-            <div class="card reveal">
-                <img src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&q=80&w=600" alt="Flowers">
-                <h3 id="p1-title">Velvet Rose</h3>
-                <span class="coming-soon" data-i18n="soon">Coming Soon</span>
+    <!-- ═══ PRODUCTS ═══ -->
+    <section class="products-section" id="shop">
+        <div class="section-header">
+            <h2 class="section-title reveal" id="shop-title">تشكيلاتنا المميزة</h2>
+        </div>
+        <div class="products-grid">
+
+            <div class="product-card reveal">
+                <span class="card-badge">جديد</span>
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1490750967868-88df5691cc43?auto=format&fit=crop&q=80&w=600" alt="Velvet Rose">
+                </div>
+                <div class="card-body">
+                    <h3 id="p1-title">باقة الورد المخملي</h3>
+                    <span class="card-price-tag" data-i18n="soon">قريباً</span>
+                    <p class="card-desc" id="p1-desc">باقة رومانسية بورود فاخرة</p>
+                    <a href="https://wa.me/201277782462?text=أريد الاستفسار عن باقة الورد المخملي" class="btn-whatsapp" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.306A9.956 9.956 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.078-1.117l-.29-.173-3.033.796.812-2.965-.19-.305A7.96 7.96 0 014 12c0-4.418 3.582-8 8-8s8 3.582 8 8-3.582 8-8 8z"/></svg>
+                        <span data-wa-label>اشتري عبر واتساب</span>
+                    </a>
+                </div>
             </div>
-            <div class="card reveal">
-                <img src="https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&q=80&w=600" alt="Flowers">
-                <h3 id="p2-title">Spring Bloom</h3>
-                <span class="coming-soon" data-i18n="soon">Coming Soon</span>
+
+            <div class="product-card reveal">
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?auto=format&fit=crop&q=80&w=600" alt="Spring Bloom">
+                </div>
+                <div class="card-body">
+                    <h3 id="p2-title">نسيم الربيع</h3>
+                    <span class="card-price-tag" data-i18n="soon">قريباً</span>
+                    <p class="card-desc" id="p2-desc">زهور ربيعية بألوان منعشة</p>
+                    <a href="https://wa.me/201277782462?text=أريد الاستفسار عن باقة نسيم الربيع" class="btn-whatsapp" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.306A9.956 9.956 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.078-1.117l-.29-.173-3.033.796.812-2.965-.19-.305A7.96 7.96 0 014 12c0-4.418 3.582-8 8-8s8 3.582 8 8-3.582 8-8 8z"/></svg>
+                        <span data-wa-label>اشتري عبر واتساب</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="product-card reveal">
+                <span class="card-badge">مميز</span>
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&q=80&w=600" alt="Pink Peonies">
+                </div>
+                <div class="card-body">
+                    <h3 id="p3-title">الفاوانيا الوردية</h3>
+                    <span class="card-price-tag" data-i18n="soon">قريباً</span>
+                    <p class="card-desc" id="p3-desc">تشكيلة فاخرة من زهر الفاوانيا</p>
+                    <a href="https://wa.me/201277782462?text=أريد الاستفسار عن باقة الفاوانيا الوردية" class="btn-whatsapp" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.306A9.956 9.956 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.078-1.117l-.29-.173-3.033.796.812-2.965-.19-.305A7.96 7.96 0 014 12c0-4.418 3.582-8 8-8s8 3.582 8 8-3.582 8-8 8z"/></svg>
+                        <span data-wa-label>اشتري عبر واتساب</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="product-card reveal">
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&q=80&w=600" alt="Luxury Bouquet">
+                </div>
+                <div class="card-body">
+                    <h3 id="p4-title">باقة العروس</h3>
+                    <span class="card-price-tag" data-i18n="soon">قريباً</span>
+                    <p class="card-desc" id="p4-desc">مصممة خصيصاً ليوم زفافك</p>
+                    <a href="https://wa.me/201277782462?text=أريد الاستفسار عن باقة العروس" class="btn-whatsapp" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.306A9.956 9.956 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.078-1.117l-.29-.173-3.033.796.812-2.965-.19-.305A7.96 7.96 0 014 12c0-4.418 3.582-8 8-8s8 3.582 8 8-3.582 8-8 8z"/></svg>
+                        <span data-wa-label>اشتري عبر واتساب</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="product-card reveal">
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1457089328109-e5d9bd499191?auto=format&fit=crop&q=80&w=600" alt="White Blooms">
+                </div>
+                <div class="card-body">
+                    <h3 id="p5-title">الأقحوان الأبيض</h3>
+                    <span class="card-price-tag" data-i18n="soon">قريباً</span>
+                    <p class="card-desc" id="p5-desc">نقاء وأناقة في كل زهرة</p>
+                    <a href="https://wa.me/201277782462?text=أريد الاستفسار عن باقة الأقحوان الأبيض" class="btn-whatsapp" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.306A9.956 9.956 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.078-1.117l-.29-.173-3.033.796.812-2.965-.19-.305A7.96 7.96 0 014 12c0-4.418 3.582-8 8-8s8 3.582 8 8-3.582 8-8 8z"/></svg>
+                        <span data-wa-label>اشتري عبر واتساب</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="product-card reveal">
+                <span class="card-badge">حصري</span>
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1533616688419-b27b1b5c7ac1?auto=format&fit=crop&q=80&w=600" alt="Luxury Mix">
+                </div>
+                <div class="card-body">
+                    <h3 id="p6-title">التشكيلة الفاخرة</h3>
+                    <span class="card-price-tag" data-i18n="soon">قريباً</span>
+                    <p class="card-desc" id="p6-desc">مزيج حصري من أندر الزهور</p>
+                    <a href="https://wa.me/201277782462?text=أريد الاستفسار عن التشكيلة الفاخرة" class="btn-whatsapp" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.306A9.956 9.956 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.078-1.117l-.29-.173-3.033.796.812-2.965-.19-.305A7.96 7.96 0 014 12c0-4.418 3.582-8 8-8s8 3.582 8 8-3.582 8-8 8z"/></svg>
+                        <span data-wa-label>اشتري عبر واتساب</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ═══ CATEGORIES ═══ -->
+    <section class="categories-section" id="categories">
+        <div class="section-header">
+            <h2 class="section-title reveal" id="cat-title">تصفّحي حسب الفئة</h2>
+        </div>
+        <div class="categories-grid">
+            <div class="cat-card reveal">
+                <img src="https://images.unsplash.com/photo-1487530811015-780780169993?auto=format&fit=crop&q=80&w=500" alt="Bouquets">
+                <div class="cat-label" id="cat1-label">باقات مختلطة<br><span class="cat-sub">من أجمل الزهور</span></div>
+            </div>
+            <div class="cat-card reveal">
+                <img src="https://images.unsplash.com/photo-1596438459194-f275f413d6ff?auto=format&fit=crop&q=80&w=500" alt="Mono Bouquets">
+                <div class="cat-label" id="cat2-label">باقات منو<br><span class="cat-sub">زهرة واحدة بتصميم فريد</span></div>
+            </div>
+            <div class="cat-card reveal">
+                <img src="https://images.unsplash.com/photo-1559563362-c667ba5f5480?auto=format&fit=crop&q=80&w=500" alt="Bridal">
+                <div class="cat-label" id="cat3-label">باقات العرائس<br><span class="cat-sub">ليوم لا يُنسى</span></div>
+            </div>
+            <div class="cat-card reveal">
+                <img src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&q=80&w=500" alt="Gift Boxes">
+                <div class="cat-label" id="cat4-label">صناديق الهدايا<br><span class="cat-sub">هدية بلمسة مميزة</span></div>
             </div>
         </div>
     </section>
 
+    <!-- ═══ ABOUT ═══ -->
+    <section class="about-section" id="about">
+        <div class="about-inner">
+            <div class="about-text reveal">
+                <h2 id="about-title">قصتنا مع الجمال</h2>
+                <p id="about-body">فلافيا استوديو متخصص في تصميم الزهور الفاخرة. نؤمن أن كل باقة هي لوحة فنية تحمل مشاعر وذكريات لا تُنسى. نختار أندر الزهور بعناية فائقة لنصنع لكِ تجربة لا تُضاهى.</p>
+                <a href="https://wa.me/201277782462?text=أريد الاستفسار عن خدمات فلافيا" class="btn-primary" target="_blank" rel="noopener" id="about-btn">
+                    <span>تواصلي معنا</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+            <div class="about-imgs reveal">
+                <img src="https://images.unsplash.com/photo-1490750967868-88df5691cc43?auto=format&fit=crop&q=80&w=400" alt="About 1">
+                <img src="https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?auto=format&fit=crop&q=80&w=400" alt="About 2">
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ NEWSLETTER ═══ -->
+    <section class="newsletter-section">
+        <div class="newsletter-box reveal">
+            <h2 id="nl-title">كوني أول من يعرف</h2>
+            <p id="nl-sub">اشتركي في نشرتنا وكوني أول من تعرف بالوصول الجديد والعروض الحصرية</p>
+            <form class="nl-form" onsubmit="return false;">
+                <input type="email" placeholder="بريدك الإلكتروني" id="nl-input">
+                <button type="submit" class="btn-primary" id="nl-btn">
+                    <span>اشتركي</span>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#" class="logo">Fluffia</a>
+                <p id="footer-desc">متجر الأزهار الفاخر — نصنع من الزهور فناً</p>
+            </div>
+            <div class="footer-col">
+                <h4 id="fc1-title">المنتجات</h4>
+                <ul>
+                    <li><a href="#shop" id="fc1-l1">باقات الورد</a></li>
+                    <li><a href="#shop" id="fc1-l2">باقات العرائس</a></li>
+                    <li><a href="#shop" id="fc1-l3">صناديق الهدايا</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 id="fc2-title">تواصلي معنا</h4>
+                <ul>
+                    <li><a href="https://wa.me/201277782462" target="_blank" rel="noopener">واتساب</a></li>
+                    <li><a href="#about" id="fc2-l2">عن فلافيا</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p id="footer-copy">© 2025 Fluffia. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
     <script>
-        // Language Data
+        /* ─── i18n ─── */
         const i18n = {
-            en: {
-                heroTitle: "Fluffia",
-                heroSub: "Stimulate your senses with premium florals",
-                heroBtn: "Explore Studio",
-                shopTitle: "Special Offers",
-                soon: "Coming Soon",
-                langBtn: "العربية",
-                themeNight: "🌙 Night",
-                themeDay: "☀️ Day",
-                p1: "Velvet Rose",
-                p2: "Spring Bloom"
-            },
             ar: {
-                heroTitle: "فلافيا",
-                heroSub: "أيقظ حواسك مع تشكيلات الزهور الفاخرة",
-                heroBtn: "اكتشف الاستوديو",
-                shopTitle: "عروض خاصة",
-                soon: "قريباً",
-                langBtn: "English",
-                themeNight: "🌙 ليل",
-                themeDay: "☀️ نهار",
-                p1: "ورد الفلفيت",
-                p2: "نسيم الربيع"
+                lang: 'ar', dir: 'rtl',
+                langBtn: 'English',
+                heroEyebrow: 'متجر الأزهار الفاخر',
+                heroSub: 'تشكيلات زهور فاخرة تُحاكي أجمل اللحظات',
+                heroBtn: 'تسوّقي الآن',
+                shopTitle: 'تشكيلاتنا المميزة',
+                soon: 'قريباً',
+                waBtnText: 'اشتري عبر واتساب',
+                catTitle: 'تصفّحي حسب الفئة',
+                cat1: 'باقات مختلطة',  cat1sub: 'من أجمل الزهور',
+                cat2: 'باقات منو',      cat2sub: 'زهرة واحدة بتصميم فريد',
+                cat3: 'باقات العرائس', cat3sub: 'ليوم لا يُنسى',
+                cat4: 'صناديق الهدايا',cat4sub: 'هدية بلمسة مميزة',
+                aboutTitle: 'قصتنا مع الجمال',
+                aboutBody: 'فلافيا استوديو متخصص في تصميم الزهور الفاخرة. نؤمن أن كل باقة هي لوحة فنية تحمل مشاعر وذكريات لا تُنسى. نختار أندر الزهور بعناية فائقة لنصنع لكِ تجربة لا تُضاهى.',
+                aboutBtn: 'تواصلي معنا',
+                nlTitle: 'كوني أول من يعرف',
+                nlSub: 'اشتركي في نشرتنا وكوني أول من تعرف بالوصول الجديد والعروض الحصرية',
+                nlInput: 'بريدك الإلكتروني',
+                nlBtn: 'اشتركي',
+                footerDesc: 'متجر الأزهار الفاخر — نصنع من الزهور فناً',
+                fc1Title: 'المنتجات',
+                fc1l1: 'باقات الورد', fc1l2: 'باقات العرائس', fc1l3: 'صناديق الهدايا',
+                fc2Title: 'تواصلي معنا', fc2l2: 'عن فلافيا',
+                footerCopy: '© 2025 Fluffia. جميع الحقوق محفوظة.',
+                p1: 'باقة الورد المخملي',      p1desc: 'باقة رومانسية بورود فاخرة',
+                p2: 'نسيم الربيع',              p2desc: 'زهور ربيعية بألوان منعشة',
+                p3: 'الفاوانيا الوردية',        p3desc: 'تشكيلة فاخرة من زهر الفاوانيا',
+                p4: 'باقة العروس',              p4desc: 'مصممة خصيصاً ليوم زفافك',
+                p5: 'الأقحوان الأبيض',          p5desc: 'نقاء وأناقة في كل زهرة',
+                p6: 'التشكيلة الفاخرة',         p6desc: 'مزيج حصري من أندر الزهور',
+                navProducts: 'المنتجات', navCats: 'الفئات', navAbout: 'عن فلافيا'
+            },
+            en: {
+                lang: 'en', dir: 'ltr',
+                langBtn: 'العربية',
+                heroEyebrow: 'Premium Floral Studio',
+                heroSub: 'Luxury floral arrangements for life\'s most beautiful moments',
+                heroBtn: 'Shop Now',
+                shopTitle: 'Our Collections',
+                soon: 'Coming Soon',
+                waBtnText: 'Order via WhatsApp',
+                catTitle: 'Shop by Category',
+                cat1: 'Mixed Bouquets',  cat1sub: 'Finest blooms together',
+                cat2: 'Mono Bouquets',   cat2sub: 'One flower, one statement',
+                cat3: 'Bridal Bouquets', cat3sub: 'For your unforgettable day',
+                cat4: 'Gift Boxes',      cat4sub: 'A gift with a special touch',
+                aboutTitle: 'Our Story with Beauty',
+                aboutBody: 'Fluffia is a luxury floral design studio. We believe every bouquet is a work of art carrying emotions and unforgettable memories. We carefully select the rarest blooms to create an unparalleled experience for you.',
+                aboutBtn: 'Contact Us',
+                nlTitle: 'Be the First to Know',
+                nlSub: 'Subscribe to our newsletter and be the first to know about new arrivals and exclusive offers',
+                nlInput: 'Your email address',
+                nlBtn: 'Subscribe',
+                footerDesc: 'Premium Floral Studio — We turn flowers into art',
+                fc1Title: 'Products',
+                fc1l1: 'Rose Bouquets', fc1l2: 'Bridal Bouquets', fc1l3: 'Gift Boxes',
+                fc2Title: 'Contact Us', fc2l2: 'About Fluffia',
+                footerCopy: '© 2025 Fluffia. All rights reserved.',
+                p1: 'Velvet Rose',         p1desc: 'A romantic bouquet of premium roses',
+                p2: 'Spring Bloom',        p2desc: 'Refreshing spring florals',
+                p3: 'Pink Peonies',        p3desc: 'A luxurious peony arrangement',
+                p4: 'Bridal Bouquet',      p4desc: 'Designed for your wedding day',
+                p5: 'White Dahlias',       p5desc: 'Purity and elegance in every bloom',
+                p6: 'Luxury Mix',          p6desc: 'An exclusive blend of the rarest flowers',
+                navProducts: 'Products', navCats: 'Categories', navAbout: 'About'
             }
         };
 
-        let currentLang = 'en';
+        let lang = 'ar';
+        const navLinks = document.querySelectorAll('.nav-links a');
 
-        // 1. Language Toggle Logic
+        function applyLang(l) {
+            const t = i18n[l];
+            document.documentElement.lang = t.lang;
+            document.documentElement.dir = t.dir;
+            document.getElementById('lang-btn').innerText    = t.langBtn;
+            document.getElementById('hero-eyebrow').innerText = t.heroEyebrow;
+            document.getElementById('hero-sub').innerText    = t.heroSub;
+            document.getElementById('hero-btn').querySelector('span').innerText = t.heroBtn;
+            document.getElementById('shop-title').innerText  = t.shopTitle;
+            document.getElementById('cat-title').innerText   = t.catTitle;
+            document.getElementById('about-title').innerText = t.aboutTitle;
+            document.getElementById('about-body').innerText  = t.aboutBody;
+            document.getElementById('about-btn').querySelector('span').innerText = t.aboutBtn;
+            document.getElementById('nl-title').innerText    = t.nlTitle;
+            document.getElementById('nl-sub').innerText      = t.nlSub;
+            document.getElementById('nl-input').placeholder  = t.nlInput;
+            document.getElementById('nl-btn').querySelector('span').innerText = t.nlBtn;
+            document.getElementById('footer-desc').innerText = t.footerDesc;
+            document.getElementById('fc1-title').innerText   = t.fc1Title;
+            document.getElementById('fc1-l1').innerText      = t.fc1l1;
+            document.getElementById('fc1-l2').innerText      = t.fc1l2;
+            document.getElementById('fc1-l3').innerText      = t.fc1l3;
+            document.getElementById('fc2-title').innerText   = t.fc2Title;
+            document.getElementById('fc2-l2').innerText      = t.fc2l2;
+            document.getElementById('footer-copy').innerText = t.footerCopy;
+            document.getElementById('p1-title').innerText = t.p1; document.getElementById('p1-desc').innerText = t.p1desc;
+            document.getElementById('p2-title').innerText = t.p2; document.getElementById('p2-desc').innerText = t.p2desc;
+            document.getElementById('p3-title').innerText = t.p3; document.getElementById('p3-desc').innerText = t.p3desc;
+            document.getElementById('p4-title').innerText = t.p4; document.getElementById('p4-desc').innerText = t.p4desc;
+            document.getElementById('p5-title').innerText = t.p5; document.getElementById('p5-desc').innerText = t.p5desc;
+            document.getElementById('p6-title').innerText = t.p6; document.getElementById('p6-desc').innerText = t.p6desc;
+            document.getElementById('cat1-label').innerHTML = `${t.cat1}<br><span class="cat-sub">${t.cat1sub}</span>`;
+            document.getElementById('cat2-label').innerHTML = `${t.cat2}<br><span class="cat-sub">${t.cat2sub}</span>`;
+            document.getElementById('cat3-label').innerHTML = `${t.cat3}<br><span class="cat-sub">${t.cat3sub}</span>`;
+            document.getElementById('cat4-label').innerHTML = `${t.cat4}<br><span class="cat-sub">${t.cat4sub}</span>`;
+            document.querySelectorAll('[data-i18n="soon"]').forEach(el => el.innerText = t.soon);
+            document.querySelectorAll('[data-wa-label]').forEach(el => el.innerText = t.waBtnText);
+            navLinks[0].innerText = t.navProducts;
+            navLinks[1].innerText = t.navCats;
+            navLinks[2].innerText = t.navAbout;
+        }
+
         function toggleLanguage() {
-            currentLang = currentLang === 'en' ? 'ar' : 'en';
-            document.body.classList.toggle('rtl', currentLang === 'ar');
-            
-            document.getElementById('hero-title').innerText = i18n[currentLang].heroTitle;
-            document.getElementById('hero-sub').innerText = i18n[currentLang].heroSub;
-            document.getElementById('hero-btn').innerText = i18n[currentLang].heroBtn;
-            document.getElementById('shop-title').innerText = i18n[currentLang].shopTitle;
-            document.getElementById('lang-btn').innerText = i18n[currentLang].langBtn;
-            document.getElementById('p1-title').innerText = i18n[currentLang].p1;
-            document.getElementById('p2-title').innerText = i18n[currentLang].p2;
-            
-            document.querySelectorAll('[data-i18n="soon"]').forEach(el => {
-                el.innerText = i18n[currentLang].soon;
-            });
+            lang = lang === 'ar' ? 'en' : 'ar';
+            applyLang(lang);
         }
 
-        // 2. Theme Toggle Logic
-        function toggleTheme() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            html.setAttribute('data-theme', newTheme);
-            document.getElementById('theme-btn').innerText = newTheme === 'light' ? '🌙 Night' : '☀️ Day';
+        /* ─── Canvas Petal Animation ─── */
+        (function() {
+            const canvas = document.getElementById('petals-canvas');
+            const ctx = canvas.getContext('2d');
+            let W, H;
+            const COLORS = ['#F9CBD6','#F2AFBC','#9E182B','#F2E0D2'];
+            const petals = [];
+            const N = 30;
+
+            function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+            window.addEventListener('resize', resize);
+            resize();
+
+            function Petal() {
+                this.reset = function() {
+                    this.x = Math.random() * W;
+                    this.y = -20;
+                    this.r = Math.random() * 10 + 5;
+                    this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+                    this.speed = Math.random() * 1.2 + 0.4;
+                    this.drift = (Math.random() - 0.5) * 0.8;
+                    this.rot = Math.random() * Math.PI * 2;
+                    this.rotSpeed = (Math.random() - 0.5) * 0.04;
+                    this.opacity = Math.random() * 0.35 + 0.1;
+                };
+                this.reset();
+                this.y = Math.random() * H;
+            }
+
+            for (let i = 0; i < N; i++) petals.push(new Petal());
+
+            function drawPetal(p) {
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rot);
+                ctx.globalAlpha = p.opacity;
+                ctx.beginPath();
+                ctx.ellipse(0, 0, p.r, p.r * 0.55, 0, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+                ctx.restore();
+            }
+
+            function tick() {
+                ctx.clearRect(0, 0, W, H);
+                petals.forEach(p => {
+                    p.y += p.speed;
+                    p.x += p.drift;
+                    p.rot += p.rotSpeed;
+                    if (p.y > H + 20) p.reset();
+                    drawPetal(p);
+                });
+                requestAnimationFrame(tick);
+            }
+            tick();
+        })();
+
+        /* ─── GSAP Scroll Reveal ─── */
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.utils.toArray('.reveal').forEach(el => {
+            gsap.to(el,
+                {
+                    opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+                    scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+                }
+            );
+        });
+
+        /* ─── Hero text char animation ─── */
+        const heroTitle = document.querySelector('.hero h1');
+        if (heroTitle) {
+            gsap.to(heroTitle,
+                { opacity: 1, scale: 1, duration: 1.2, ease: 'expo.out', delay: 0.2 }
+            );
         }
 
-        // 3. GSAP Animations & Petals
-        gsap.to(".reveal", { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: "power2.out" });
-
-        const petalsContainer = document.getElementById('petals-container');
-        for (let i = 0; i < 20; i++) {
-            const petal = document.createElement('div');
-            petal.innerHTML = '🌸';
-            petal.style.position = 'absolute';
-            petal.style.fontSize = Math.random() * 20 + 10 + 'px';
-            petal.style.left = Math.random() * 100 + 'vw';
-            petal.style.top = -50 + 'px';
-            petal.style.opacity = Math.random();
-            petalsContainer.appendChild(petal);
-
-            gsap.to(petal, {
-                y: window.innerHeight + 100,
-                x: "+=100",
-                rotation: 360,
-                duration: Math.random() * 10 + 5,
-                repeat: -1,
-                delay: Math.random() * 5,
-                ease: "none"
-            });
-        }
-
-        // 4. Modal Logic
-        function openPopup() { document.getElementById('modal').style.display = 'block'; }
-        function closePopup() { document.getElementById('modal').style.display = 'none'; }
+        /* ─── Nav scroll shrink ─── */
+        ScrollTrigger.create({
+            start: 'top -60',
+            onUpdate: self => {
+                const nav = document.querySelector('nav');
+                nav.style.height = self.progress > 0 ? '58px' : '72px';
+            }
+        });
     </script>
 </body>
 </html>
