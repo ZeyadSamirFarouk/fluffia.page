@@ -3,722 +3,378 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HUSH — Your Choice</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --pink: #d87893;
-            --pink-bg: #d4788f;
-            --pink-light: #e8a0b4;
-            --pink-section: #c96b82;
-            --text-dark: #111111;
-            --text-gray: #888888;
-            --bg: #ffffff;
-        }
+    <title>Fluffia | Floral & Gifts</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 
-        *, *::before, *::after {
+    <style>
+        /* --- Reset & Base Styles --- */
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        html { scroll-behavior: smooth; }
+        :root {
+            --dark-green: #1a362f;
+            --sage-green: #8fbc9f;
+            --blush-pink: #f2ded4;
+            --white: #ffffff;
+            --text-dark: #333333;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Montserrat', sans-serif;
+        }
 
         body {
-            font-family: 'Montserrat', sans-serif;
-            background: var(--bg);
+            font-family: var(--font-body);
+            background-color: var(--white);
             color: var(--text-dark);
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* ─── HEADER ─────────────────────────────────────────── */
-        header {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%;
-            z-index: 200;
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            align-items: start;
-            padding: 36px 50px;
+        /* --- Typography --- */
+        h1, h2, h3, .logo {
+            font-family: var(--font-heading);
+            font-weight: 400;
         }
 
-        .nav-left {
-            list-style: none;
+        /* --- Navbar --- */
+        .navbar {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 5%;
+            background-color: transparent; /* خليتها شفافة عشان تبان أحلى على الخلفية الخضراء */
+            color: var(--white);
+            position: absolute;
+            width: 100%;
+            z-index: 10;
         }
-
-        .nav-left li:first-child a {
-            color: var(--pink);
-            font-weight: 700;
-        }
-
-        .nav-left a {
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-gray);
-            letter-spacing: 0.3px;
-            transition: color 0.25s;
-        }
-        .nav-left a:hover { color: var(--pink); }
 
         .logo {
-            font-size: 28px;
-            font-weight: 900;
-            color: var(--pink);
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            text-decoration: none;
-            text-align: center;
-            padding-top: 4px;
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
         }
 
-        .nav-right {
+        .nav-links {
+            list-style: none;
             display: flex;
-            justify-content: flex-end;
-            align-items: flex-start;
+            gap: 2.5rem;
         }
 
-        .search-icon {
-            font-size: 18px;
-            color: var(--text-gray);
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.7;
+        }
+
+        .cart-icon {
             cursor: pointer;
-            transition: color 0.25s;
-            background: none;
-            border: none;
+            transition: opacity 0.3s;
         }
-        .search-icon:hover { color: var(--text-dark); }
+        
+        .cart-icon:hover {
+            opacity: 0.7;
+        }
 
-        /* ─── HERO ────────────────────────────────────────────── */
+        /* --- Hero Section --- */
         .hero {
-            position: relative;
+            display: flex;
+            background-color: var(--dark-green);
+            color: var(--white);
+            padding-top: 80px; 
             min-height: 100vh;
+        }
+
+        .hero-content {
+            flex: 1;
+            padding: 10% 5%;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            overflow: hidden;
-            padding-top: 120px;
-        }
-
-        .hero-bg-text {
-            position: absolute;
-            top: 42%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 17vw;
-            font-weight: 400;
-            color: var(--text-dark);
-            white-space: nowrap;
-            z-index: 1;
-            letter-spacing: -6px;
-            line-height: 1;
-            pointer-events: none;
-            user-select: none;
-        }
-
-        .hero-bag-wrap {
-            position: relative;
-            z-index: 10;
-            display: flex;
-            align-items: flex-end;
             justify-content: center;
-            margin-top: 20px;
         }
 
-        .hero-silver-shape {
-            width: 110px;
-            margin-right: -30px;
-            margin-bottom: 60px;
-            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.18));
+        .hero-content h1 {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
         }
 
-        .main-bag {
-            width: 420px;
-            max-width: 58vw;
-            filter: drop-shadow(0 24px 48px rgba(0,0,0,0.13));
-        }
-
-        .hero-bottom {
-            position: relative;
-            z-index: 20;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            width: 100%;
-            padding: 60px 80px 80px;
-        }
-
-        .hero-bottom-left h5 {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-gray);
-            margin-bottom: 6px;
-            letter-spacing: 0.3px;
-        }
-        .hero-bottom-left h3 {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--text-dark);
-        }
-
-        .hero-bottom-right {
-            max-width: 360px;
-            text-align: left;
-        }
-        .hero-bottom-right p {
-            font-size: 13px;
-            font-weight: 700;
-            line-height: 1.6;
-            color: var(--text-dark);
-            margin-bottom: 18px;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background-color: var(--pink);
-            color: #fff;
-            padding: 12px 22px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.25s, transform 0.2s;
-        }
-        .btn:hover { background-color: var(--pink-section); transform: translateY(-1px); }
-        .btn .arr { font-size: 16px; }
-
-        /* ─── NEW ARRIVALS ────────────────────────────────────── */
-        .new-arrivals {
-            background-color: var(--pink-bg);
-            padding: 72px 60px;
-            text-align: center;
-            color: #fff;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 36px;
-            margin-bottom: 52px;
-        }
-        .section-header h2 {
-            font-size: 34px;
-            font-weight: 900;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-        .section-label {
-            font-size: 13px;
-            font-weight: 600;
-            color: rgba(255,255,255,0.65);
-            letter-spacing: 0.4px;
-        }
-
-        .carousel-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 18px;
-        }
-
-        .carousel {
-            display: flex;
-            gap: 32px;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            max-width: 1020px;
-            padding: 8px 4px 16px;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        .carousel::-webkit-scrollbar { display: none; }
-
-        .product-card {
-            background: rgba(255,255,255,0.22);
-            backdrop-filter: blur(2px);
-            padding: 28px 24px 22px;
-            border-radius: 36px;
-            min-width: 290px;
-            max-width: 290px;
-            position: relative;
-            transition: transform 0.3s;
-            flex-shrink: 0;
-        }
-        .product-card:hover { transform: translateY(-6px); }
-
-        .eco-badge {
-            position: absolute;
-            top: 18px;
-            left: 18px;
-            background: rgba(255,255,255,0.88);
-            color: var(--pink-section);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-        }
-
-        .product-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: contain;
-            margin-bottom: 18px;
-        }
-
-        .product-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-align: left;
-        }
-        .product-info h3 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-        .product-info .price {
-            font-size: 13px;
-            opacity: 0.75;
-            font-weight: 500;
+        .hero-content p {
+            font-size: 1rem;
+            max-width: 450px;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
         }
 
         .btn-outline {
-            background: rgba(255,255,255,0.9);
-            color: var(--pink-section);
-            padding: 8px 16px;
-            border-radius: 22px;
-            font-size: 12px;
-            font-weight: 700;
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border: 1px solid var(--white);
+            color: var(--white);
             text-decoration: none;
-            white-space: nowrap;
-            transition: background 0.2s, color 0.2s;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            border-radius: 50px;
+            align-self: flex-start;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
         }
-        .btn-outline:hover { background: #fff; color: var(--pink); }
 
-        .arrow-btn {
-            background: rgba(255,255,255,0.25);
-            border: none;
-            color: rgba(255,255,255,0.9);
-            font-size: 20px;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            cursor: pointer;
+        .btn-outline:hover {
+            background-color: var(--white);
+            color: var(--dark-green);
+        }
+
+        .hero-image {
+            flex: 1;
             display: flex;
+            justify-content: flex-end;
             align-items: center;
-            justify-content: center;
-            transition: background 0.25s, transform 0.2s;
-            flex-shrink: 0;
-        }
-        .arrow-btn:hover { background: rgba(255,255,255,0.4); transform: scale(1.05); }
-
-        /* ─── ABOUT ───────────────────────────────────────────── */
-        .about-section {
-            position: relative;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            padding: 100px 90px 160px;
-            overflow: hidden;
-            min-height: 700px;
-            align-items: center;
+            padding-right: 5%;
         }
 
-        .about-text { z-index: 2; }
-
-        .about-text p {
-            font-size: 13px;
-            color: #555;
-            line-height: 1.75;
-            margin-bottom: 18px;
-            font-weight: 500;
-            max-width: 340px;
-        }
-
-        .about-text .btn {
-            margin-top: 6px;
-        }
-
-        .about-images {
-            position: relative;
-            height: 480px;
-            z-index: 2;
-        }
-
-        .about-images img {
-            position: absolute;
-            border-radius: 12px;
+        .hero-image img {
+            max-width: 90%;
+            height: auto;
             object-fit: cover;
+            box-shadow: -20px 20px 0px rgba(0,0,0,0.1);
         }
 
-        .ab-shape1 {
-            width: 130px;
-            top: 0; left: 30%;
-            border-radius: 0 !important;
-            object-fit: contain !important;
+        /* --- Categories Section --- */
+        .categories {
+            position: relative;
+            padding: 8rem 5%;
+            background-color: var(--white);
         }
 
-        .ab-photo1 {
-            width: 200px;
-            height: 200px;
-            top: 0; right: 0;
-        }
-
-        .ab-heads {
-            width: 370px;
-            height: 340px;
-            bottom: 0; right: 0;
-        }
-
-        .ab-coil {
-            width: 130px;
-            bottom: 30px;
-            left: 18%;
-            border-radius: 0 !important;
-            object-fit: contain !important;
-            z-index: 3;
-        }
-
-        .hush-bg {
+        .decorative-green-box {
             position: absolute;
-            bottom: 0; left: 30px;
-            font-size: 18vw;
-            font-weight: 900;
-            color: var(--pink);
-            letter-spacing: -4px;
-            line-height: 0.85;
-            z-index: 1;
-            pointer-events: none;
-            user-select: none;
+            top: 0;
+            left: 0;
+            width: 45%;
+            height: 70%;
+            background-color: var(--sage-green);
+            z-index: 0;
         }
 
-        /* ─── COLLECTIONS ─────────────────────────────────────── */
-        .collections-section {
-            padding: 80px 80px 100px;
-        }
-
-        .collections-section h2 {
-            font-size: 30px;
-            font-weight: 900;
-            margin-bottom: 48px;
-            color: var(--text-dark);
-        }
-
-        .collections-grid {
+        .category-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 28px;
-        }
-
-        .collection-card {
-            border-radius: 28px;
-            overflow: hidden;
+            gap: 2.5rem;
             position: relative;
-            aspect-ratio: 4/5;
-            cursor: pointer;
+            z-index: 1;
         }
 
-        .collection-card img {
+        .category-card {
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .category-card img {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .category-card h3 {
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .category-card:hover h3 {
+            color: var(--sage-green);
+        }
+
+        /* --- About Section --- */
+        .about {
+            display: flex;
+            background-color: var(--white);
+            min-height: 80vh;
+        }
+
+        .about-image {
+            flex: 1.2;
+        }
+
+        .about-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.4s;
         }
-        .collection-card:hover img { transform: scale(1.04); }
 
-        .collection-label {
-            position: absolute;
-            bottom: 22px; left: 22px;
-            background: rgba(255,255,255,0.9);
+        .about-content {
+            flex: 1;
+            background-color: var(--blush-pink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5rem;
+        }
+
+        .about-box {
+            max-width: 400px;
+            text-align: left;
+        }
+
+        .about-box h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-box p {
+            font-size: 1rem;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+
+        .btn-outline-dark {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border: 1px solid var(--text-dark);
             color: var(--text-dark);
-            font-size: 13px;
-            font-weight: 700;
-            padding: 8px 18px;
-            border-radius: 24px;
-            letter-spacing: 0.3px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
         }
 
-        /* ─── FOOTER / REVIEWS ────────────────────────────────── */
-        .reviews-section {
-            background: #f5f5f5;
-            padding: 90px 90px;
-            text-align: center;
-        }
-        .reviews-section h2 {
-            font-size: 28px;
-            font-weight: 900;
-            margin-bottom: 16px;
-        }
-        .reviews-section p {
-            color: var(--text-gray);
-            font-size: 14px;
-            font-weight: 500;
-            max-width: 500px;
-            margin: 0 auto;
+        .btn-outline-dark:hover {
+            background-color: var(--text-dark);
+            color: var(--blush-pink);
         }
 
-        /* ─── RESPONSIVE ──────────────────────────────────────── */
-        @media (max-width: 900px) {
-            header { padding: 28px 28px; }
-            .hero-bg-text { font-size: 22vw; }
-            .main-bag { width: 80vw; }
-            .hero-bottom { padding: 30px 28px 50px; flex-direction: column; gap: 28px; }
-            .new-arrivals { padding: 50px 24px; }
-            .about-section { grid-template-columns: 1fr; padding: 60px 28px 200px; }
-            .about-images { height: 360px; }
-            .ab-heads { width: 280px; }
-            .collections-section { padding: 60px 28px; }
-            .collections-grid { grid-template-columns: 1fr 1fr; }
+        /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            .hero-content h1 {
+                font-size: 3.5rem;
+            }
+            .category-grid {
+                gap: 1.5rem;
+            }
         }
 
-        @media (max-width: 600px) {
-            .hero-bg-text { font-size: 28vw; letter-spacing: -3px; }
-            .logo { font-size: 22px; }
-            .section-header h2 { font-size: 22px; }
-            .collections-grid { grid-template-columns: 1fr; }
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 5%;
+            }
+            .nav-links {
+                gap: 1.5rem;
+            }
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 120px;
+            }
+            .hero-content {
+                align-items: center;
+            }
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+            .btn-outline {
+                align-self: center;
+            }
+            .hero-image {
+                justify-content: center;
+                padding-right: 0;
+                margin-top: 2rem;
+                padding-bottom: 2rem;
+            }
+            .about {
+                flex-direction: column;
+            }
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+            .decorative-green-box {
+                width: 100%;
+                height: 20%;
+            }
+            .about-content {
+                padding: 3rem 5%;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- ═══ HEADER ════════════════════════════════════════════ -->
-    <header>
-        <ul class="nav-left">
-            <li><a href="#explore">Explore &rarr;</a></li>
-            <li><a href="#collections">Collections</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#reviews">Reviews</a></li>
+    <header class="navbar">
+        <div class="logo">Fluffia</div>
+        <ul class="nav-links">
+            <li><a href="#">Shop</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">FAQs</a></li>
         </ul>
-
-        <a href="#explore" class="logo">HUSH</a>
-
-        <div class="nav-right">
-            <button class="search-icon" aria-label="Search">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="11" cy="11" r="8"/>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                </svg>
-            </button>
+        <div class="cart-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
         </div>
     </header>
 
-    <!-- ═══ HERO ══════════════════════════════════════════════ -->
-    <section id="explore" class="hero">
-        <div class="hero-bg-text">your choice</div>
-
-        <div class="hero-bag-wrap">
-            <!-- small silver abstract shape to the left of the main bag -->
-            <img
-                src="https://i.imgur.com/4VtIxnX.png"
-                alt="Silver abstract shape"
-                class="hero-silver-shape"
-                id="heroSilverShape"
-            >
-            <img
-                src="https://png.pngtree.com/png-vector/20230811/ourmid/pngtree-pink-bag-vector-png-image_6851608.png"
-                alt="HUSH pink bag"
-                class="main-bag"
-            >
+    <section class="hero">
+        <div class="hero-content">
+            <h1>A bouquet for every occasion.</h1>
+            <p>Want to send your congratulations, condolences, or your love and support? No matter the message you want to share, we have a bouquet for you.</p>
+            <a href="#" class="btn-outline">SHOP ALL FLOWERS</a>
         </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1591886810228-569b7f5816da?auto=format&fit=crop&q=80&w=800" alt="Fluffia Bouquet">
+        </div>
+    </section>
 
-        <div class="hero-bottom">
-            <div class="hero-bottom-left">
-                <h5>About us</h5>
-                <h3>What we do</h3>
+    <section class="categories">
+        <div class="decorative-green-box"></div>
+        <div class="category-grid">
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1563241598-bc582cd395b4?auto=format&fit=crop&q=80&w=600" alt="Flowers">
+                <h3>Flowers &rarr;</h3>
             </div>
-            <div class="hero-bottom-right">
-                <p>Each HUSH brand bag is the perfect<br>combination of creativity and practicality.</p>
-                <a href="#about" class="btn">Learn more <span class="arr">&#8594;</span></a>
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&q=80&w=600" alt="Plants & Trees">
+                <h3>Plants & Trees &rarr;</h3>
+            </div>
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=600" alt="Gifts">
+                <h3>Gifts &rarr;</h3>
             </div>
         </div>
     </section>
 
-    <!-- ═══ NEW ARRIVALS ══════════════════════════════════════ -->
-    <section id="new-arrivals" class="new-arrivals">
-        <div class="section-header">
-            <span class="section-label">Bloggers' Choice</span>
-            <h2>NEW ARRIVALS</h2>
-            <span class="section-label">Bestsellers</span>
+    <section class="about">
+        <div class="about-image">
+            <img src="https://images.unsplash.com/photo-1600861194942-f883de0dfe96?auto=format&fit=crop&q=80&w=800" alt="About Fluffia">
         </div>
-
-        <div class="carousel-wrapper">
-            <button class="arrow-btn" id="prevBtn" aria-label="Previous">&#8592;</button>
-
-            <div class="carousel" id="slider">
-                <!-- Sabrina -->
-                <div class="product-card">
-                    <div class="eco-badge">&#127807; ECO</div>
-                    <img
-                        src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=300&fit=crop&auto=format"
-                        alt="Sabrina – silver metallic bag"
-                    >
-                    <div class="product-info">
-                        <div>
-                            <h3>Sabrina</h3>
-                            <p class="price">$220</p>
-                        </div>
-                        <a href="#" class="btn-outline">Learn more</a>
-                    </div>
-                </div>
-
-                <!-- Brielle -->
-                <div class="product-card">
-                    <div class="eco-badge">&#127807; ECO</div>
-                    <img
-                        src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400&h=300&fit=crop&auto=format"
-                        alt="Brielle – white structured bag"
-                    >
-                    <div class="product-info">
-                        <div>
-                            <h3>Brielle</h3>
-                            <p class="price">$200</p>
-                        </div>
-                        <a href="#" class="btn-outline">Learn more</a>
-                    </div>
-                </div>
-
-                <!-- Naomi -->
-                <div class="product-card">
-                    <div class="eco-badge">&#127807; ECO</div>
-                    <img
-                        src="https://png.pngtree.com/png-vector/20230811/ourmid/pngtree-pink-bag-vector-png-image_6851608.png"
-                        alt="Naomi – pink bag"
-                        style="padding: 10px;"
-                    >
-                    <div class="product-info">
-                        <div>
-                            <h3>Naomi</h3>
-                            <p class="price">$235</p>
-                        </div>
-                        <a href="#" class="btn-outline">Learn more</a>
-                    </div>
-                </div>
-
-                <!-- extra card for scroll demo -->
-                <div class="product-card">
-                    <div class="eco-badge">&#127807; ECO</div>
-                    <img
-                        src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&h=300&fit=crop&auto=format"
-                        alt="Zara – rose bag"
-                    >
-                    <div class="product-info">
-                        <div>
-                            <h3>Zara</h3>
-                            <p class="price">$195</p>
-                        </div>
-                        <a href="#" class="btn-outline">Learn more</a>
-                    </div>
-                </div>
-            </div>
-
-            <button class="arrow-btn" id="nextBtn" aria-label="Next">&#8594;</button>
-        </div>
-    </section>
-
-    <!-- ═══ ABOUT ═════════════════════════════════════════════ -->
-    <section id="about" class="about-section">
-
-        <div class="about-text">
-            <p>Our team is passionate about futurism and innovation, and we bring this passion to life in every bag we make.</p>
-            <p>We love experimenting with modern materials, technologies and shapes to create products that not only meet your needs, but also inspire new possibilities. Together we explore the future of fashion and functionality, creating bags that will become your faithful companions in the fast-paced world of modern life.</p>
-            <a href="#collections" class="btn">More about us <span class="arr">&#8594;</span></a>
-        </div>
-
-        <div class="about-images">
-            <!-- chrome abstract shape top-center -->
-            <img
-                src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=300&h=300&fit=crop&auto=format&grayscale"
-                alt="Chrome abstract shape"
-                class="ab-shape1"
-                onerror="this.style.background='#ccc'"
-            >
-
-            <!-- pink-tinted futuristic bag top-right -->
-            <img
-                src="https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400&h=400&fit=crop&auto=format"
-                alt="Futuristic bag"
-                class="ab-photo1"
-            >
-
-            <!-- metallic head sculptures bottom-right -->
-            <img
-                src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=700&h=640&fit=crop&auto=format"
-                alt="Metallic sculptural heads"
-                class="ab-heads"
-            >
-
-            <!-- pink coil bottom-left -->
-            <img
-                src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=300&h=380&fit=crop&auto=format"
-                alt="Pink abstract coil"
-                class="ab-coil"
-                onerror="this.style.display='none'"
-            >
-        </div>
-
-        <!-- big decorative HUSH text -->
-        <div class="hush-bg" aria-hidden="true">HUSH</div>
-    </section>
-
-    <!-- ═══ COLLECTIONS ════════════════════════════════════════ -->
-    <section id="collections" class="collections-section">
-        <h2>Our collections</h2>
-        <div class="collections-grid">
-            <div class="collection-card">
-                <img
-                    src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&h=750&fit=crop&auto=format"
-                    alt="Silver collection"
-                >
-                <span class="collection-label">Silver Series</span>
-            </div>
-            <div class="collection-card">
-                <img
-                    src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600&h=750&fit=crop&auto=format"
-                    alt="White collection"
-                >
-                <span class="collection-label">Blanc Edit</span>
-            </div>
-            <div class="collection-card">
-                <img
-                    src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600&h=750&fit=crop&auto=format"
-                    alt="Rose collection"
-                >
-                <span class="collection-label">Rose Drop</span>
+        <div class="about-content">
+            <div class="about-box">
+                <h2>About Us</h2>
+                <p>We are a boutique dedicated to helping you spread love through our handcrafted flower arrangements, plants, and curated gifts.</p>
+                <a href="#" class="btn-outline-dark">LEARN MORE</a>
             </div>
         </div>
     </section>
 
-    <!-- ═══ REVIEWS ════════════════════════════════════════════ -->
-    <section id="reviews" class="reviews-section">
-        <h2>Customer Reviews</h2>
-        <p>Our clients love their HUSH pieces.</p>
-    </section>
-
-    <script>
-        const slider  = document.getElementById('slider');
-        const nextBtn = document.getElementById('nextBtn');
-        const prevBtn = document.getElementById('prevBtn');
-
-        // Card width (290px) + gap (32px) = 322px per scroll step
-        const CARD_SCROLL_STEP = 290 + 32;
-
-        nextBtn.addEventListener('click', () => slider.scrollBy({ left: CARD_SCROLL_STEP, behavior: 'smooth' }));
-        prevBtn.addEventListener('click', () => slider.scrollBy({ left: -CARD_SCROLL_STEP, behavior: 'smooth' }));
-
-        // Hide decorative silver shape if image fails to load
-        const silverShape = document.getElementById('heroSilverShape');
-        if (silverShape) {
-            silverShape.addEventListener('error', () => { silverShape.style.display = 'none'; });
-        }
-    </script>
 </body>
 </html>
