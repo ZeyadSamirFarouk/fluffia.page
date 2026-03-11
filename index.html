@@ -15,6 +15,10 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth; 
+        }
+
         :root {
             --dark-green: #1a362f;
             --sage-green: #8fbc9f;
@@ -23,6 +27,7 @@
             --text-dark: #333333;
             --font-heading: 'Playfair Display', serif;
             --font-body: 'Montserrat', sans-serif;
+            --whatsapp-green: #25d366;
         }
 
         body {
@@ -33,7 +38,6 @@
             overflow-x: hidden;
         }
 
-        /* --- Typography --- */
         h1, h2, h3, .logo {
             font-family: var(--font-heading);
             font-weight: 400;
@@ -45,11 +49,19 @@
             justify-content: space-between;
             align-items: center;
             padding: 2rem 5%;
-            background-color: transparent; /* خليتها شفافة عشان تبان أحلى على الخلفية الخضراء */
+            background-color: transparent;
             color: var(--white);
-            position: absolute;
+            position: fixed;
+            top: 0;
             width: 100%;
-            z-index: 10;
+            z-index: 1000;
+            transition: background-color 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .navbar.scrolled {
+            background-color: var(--dark-green);
+            padding: 1rem 5%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .logo {
@@ -149,7 +161,7 @@
             box-shadow: -20px 20px 0px rgba(0,0,0,0.1);
         }
 
-        /* --- Categories Section --- */
+        /* --- Categories (Shop) Section --- */
         .categories {
             position: relative;
             padding: 8rem 5%;
@@ -246,32 +258,130 @@
             line-height: 1.8;
         }
 
-        .btn-outline-dark {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            border: 1px solid var(--text-dark);
-            color: var(--text-dark);
-            text-decoration: none;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
+        /* --- FAQs Section --- */
+        .faqs {
+            padding: 6rem 5%;
+            background-color: var(--sage-green);
+            color: var(--dark-green);
         }
 
-        .btn-outline-dark:hover {
-            background-color: var(--text-dark);
-            color: var(--blush-pink);
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faqs h2 {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--dark-green);
+        }
+
+        .faq-item {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(26, 54, 47, 0.2);
+            padding-bottom: 1.5rem;
+        }
+
+        .faq-item h4 {
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-item p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* --- Contact Section --- */
+        .contact {
+            padding: 6rem 5%;
+            background-color: var(--white);
+            text-align: center;
+        }
+
+        .contact-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact p {
+            margin-bottom: 3rem;
+            color: #666;
+        }
+
+        .contact form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact input, .contact textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .contact input:focus, .contact textarea:focus {
+            border-color: var(--dark-green);
+        }
+
+        /* --- Floating WhatsApp Button --- */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--whatsapp-green);
+            color: var(--white);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 2px 2px 15px rgba(0,0,0,0.3);
+        }
+
+        .whatsapp-float svg {
+            width: 35px;
+            height: 35px;
+            fill: currentColor;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--dark-green);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
         }
 
         /* --- Responsive Design --- */
         @media (max-width: 992px) {
-            .hero-content h1 {
-                font-size: 3.5rem;
-            }
-            .category-grid {
-                gap: 1.5rem;
-            }
+            .hero-content h1 { font-size: 3.5rem; }
+            .category-grid { gap: 1.5rem; }
         }
 
         @media (max-width: 768px) {
@@ -279,55 +389,52 @@
                 flex-direction: column;
                 gap: 1rem;
                 padding: 1rem 5%;
+                background-color: var(--dark-green);
             }
-            .nav-links {
-                gap: 1.5rem;
+            .navbar.scrolled {
+                padding: 1rem 5%;
             }
+            .nav-links { gap: 1.5rem; }
             .hero {
                 flex-direction: column;
                 text-align: center;
-                padding-top: 120px;
+                padding-top: 180px; 
             }
-            .hero-content {
-                align-items: center;
-            }
-            .hero-content h1 {
-                font-size: 3rem;
-            }
-            .btn-outline {
-                align-self: center;
-            }
+            .hero-content { align-items: center; }
+            .hero-content h1 { font-size: 3rem; }
             .hero-image {
                 justify-content: center;
                 padding-right: 0;
                 margin-top: 2rem;
                 padding-bottom: 2rem;
             }
-            .about {
-                flex-direction: column;
+            .about { flex-direction: column; }
+            .category-grid { grid-template-columns: 1fr; }
+            .decorative-green-box { width: 100%; height: 20%; }
+            .about-content { padding: 3rem 5%; }
+            .faqs, .contact { padding: 4rem 5%; }
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
             }
-            .category-grid {
-                grid-template-columns: 1fr;
-            }
-            .decorative-green-box {
-                width: 100%;
-                height: 20%;
-            }
-            .about-content {
-                padding: 3rem 5%;
+            .whatsapp-float svg {
+                width: 30px;
+                height: 30px;
             }
         }
     </style>
 </head>
 <body>
 
-    <header class="navbar">
+    <header class="navbar" id="navbar">
         <div class="logo">Fluffia</div>
         <ul class="nav-links">
-            <li><a href="#">Shop</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">FAQs</a></li>
+            <li><a href="#shop">Shop</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#faqs">FAQs</a></li>
+            <li><a href="#contact">Contact</a></li>
         </ul>
         <div class="cart-icon">
             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
@@ -338,14 +445,14 @@
         <div class="hero-content">
             <h1>A bouquet for every occasion.</h1>
             <p>Want to send your congratulations, condolences, or your love and support? No matter the message you want to share, we have a bouquet for you.</p>
-            <a href="#" class="btn-outline">SHOP ALL FLOWERS</a>
+            <a href="#shop" class="btn-outline">SHOP ALL FLOWERS</a>
         </div>
         <div class="hero-image">
             <img src="https://images.unsplash.com/photo-1591886810228-569b7f5816da?auto=format&fit=crop&q=80&w=800" alt="Fluffia Bouquet">
         </div>
     </section>
 
-    <section class="categories">
+    <section class="categories" id="shop">
         <div class="decorative-green-box"></div>
         <div class="category-grid">
             <div class="category-card">
@@ -363,7 +470,7 @@
         </div>
     </section>
 
-    <section class="about">
+    <section class="about" id="about">
         <div class="about-image">
             <img src="https://images.unsplash.com/photo-1600861194942-f883de0dfe96?auto=format&fit=crop&q=80&w=800" alt="About Fluffia">
         </div>
@@ -371,10 +478,65 @@
             <div class="about-box">
                 <h2>About Us</h2>
                 <p>We are a boutique dedicated to helping you spread love through our handcrafted flower arrangements, plants, and curated gifts.</p>
-                <a href="#" class="btn-outline-dark">LEARN MORE</a>
+                <a href="#contact" class="btn-outline-dark">GET IN TOUCH</a>
             </div>
         </div>
     </section>
 
+    <section class="faqs" id="faqs">
+        <div class="faq-container">
+            <h2>Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <h4>How long do your flowers last?</h4>
+                <p>With proper care, our fresh blooms typically last 5-7 days. We provide care instructions with every order.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>Do you offer same-day delivery?</h4>
+                <p>Yes! We offer same-day delivery for all orders placed before 2:00 PM local time.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>Can I customize a bouquet?</h4>
+                <p>Absolutely. You can contact us directly to discuss custom arrangements tailored to your specific occasion.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <div class="contact-container">
+            <h2>Contact Us</h2>
+            <p>Have a question or a special request? Send us a message.</p>
+            
+            <form action="#" method="POST">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Your Message" rows="5" required></textarea>
+                <button type="submit" class="btn-outline-dark">SEND MESSAGE</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Fluffia. All Rights Reserved.</p>
+    </footer>
+
+    <a href="https://wa.me/201277782462" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+            <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zM223.9 413.6c-33.6 0-66.7-9-95.6-26.1l-6.8-4-71.2 18.7 19-69.4-4.4-7C46 295.6 36.3 260.4 36.3 224c0-103.6 84.4-188 188.1-188 50.3 0 97.6 19.6 133.2 55.2 35.6 35.6 55.2 82.9 55.2 133.2 0 103.7-84.4 189.2-188.9 189.2h-.1zm103.6-141.6c-5.7-2.8-33.6-16.6-38.8-18.5-5.2-1.9-9-2.8-12.8 2.8-3.8 5.7-14.7 18.5-18 22.3-3.3 3.8-6.6 4.3-12.3 1.4-5.7-2.8-24-8.8-45.7-28.2-16.9-15.1-28.3-33.8-31.6-39.5-3.3-5.7-.4-8.8 2.5-11.6 2.6-2.6 5.7-6.6 8.5-9.9 2.8-3.3 3.8-5.7 5.7-9.5 1.9-3.8.9-7.1-.5-9.9-1.4-2.8-12.8-30.9-17.5-42.3-4.6-11.1-9.3-9.6-12.8-9.8-3.3-.2-7.1-.2-10.9-.2-3.8 0-10 1.4-15.2 7.1-5.2 5.7-20.4 19.9-20.4 48.3 0 28.4 20.9 55.9 23.7 59.7 2.8 3.8 40.8 62.3 98.9 87.4 13.8 6 24.6 9.5 33 12.2 13.8 4.4 26.4 3.8 36.4 2.3 11.2-1.7 33.6-13.7 38.3-27 4.7-13.3 4.7-24.6 3.3-27-1.4-2.4-5.2-3.8-10.9-6.6z"/>
+        </svg>
+    </a>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
 </body>
 </html>
